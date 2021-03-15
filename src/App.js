@@ -10,9 +10,11 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 const initialFormState = { name: '', description: '' }
+const initialItemState = [{ name: '', description: '' }]
 
 function App() {
-  const [items, setItems] = useState([]);
+  //const [items, setItems] = useState([]);
+  const [items, setItems] = useState(initialItemState);
   const [formData, setFormData] = useState(initialFormState);
 
   // useEffect(() => {
@@ -120,5 +122,5 @@ function App() {
   );
 }
 
-export default withAuthenticator(App);
-// export default App;
+//export default withAuthenticator(App);
+ export default App;
