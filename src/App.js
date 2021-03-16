@@ -14,31 +14,32 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
 
-function App() {
-//class App extends React.Component {
-  const [items, setItems] = useState([]);
-  const [items, setItems] = useState(initialItemState);
-  const [formData, setFormData] = useState(initialFormState);
+//function App() {
+class App extends React.Component {
+  // const [items, setItems] = useState([]);
+  // const [items, setItems] = useState(initialItemState);
+  // const [formData, setFormData] = useState(initialFormState);
+  // useEffect(() => {
+  //   fetchItems();
+  // }, []);
 
-  // constructor(props) {
-  //   super(props);
-  //   //this.handleChange1 = this.handleChange1.bind(this)
-  //   //this.handleChange2 = this.handleChange2.bind(this)
-  //   //this.handleClick = this.handleClick.bind(this)
-  //   this.editItem = this.editItem.bind(this);
-  //   this.state = {
-  //     id: ""
-  //   };
-  // }
+  constructor(props) {
+    super(props);
+    //this.handleChange1 = this.handleChange1.bind(this)
+    //this.handleChange2 = this.handleChange2.bind(this)
+    //this.handleClick = this.handleClick.bind(this)
+    this.editItem = this.editItem.bind(this);
+    this.state = {
+      id: ""
+    };
+  }
 
 
 
-  useEffect(() => {
-    fetchItems();
-  }, []);
 
-  async function fetchItems() {
-    const apiData = await API.graphql({ query: listItems });
+  //async function fetchItems() {
+  async fetchItems() {
+      const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
       if (item.image) {
@@ -50,8 +51,9 @@ function App() {
     setItems(apiData.data.listItems.items);
   }
 
-  async function createItem() {
-    if (!formData.name || !formData.description) return;
+  //async function createItem() {
+  async createItem() {
+      if (!formData.name || !formData.description) return;
     await API.graphql({ query: createItemMutation, variables: { input: formData } });
     if (formData.image) {
       const image = await Storage.get(formData.image);
@@ -61,13 +63,14 @@ function App() {
     setFormData(initialFormState);
   }
 
-  async function deleteItem({ id }) {
-    const newItemsArray = items.filter(item => item.id !== id);
+  //async function deleteItem({ id }) {
+  async deleteItem({ id }) {
+      const newItemsArray = items.filter(item => item.id !== id);
     setItems(newItemsArray);
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
 
-  function editItem({id}) {
+  editItem({id}) {
   //async function editItem({ id }) {
 
     // this.props.history.push({
@@ -78,15 +81,17 @@ function App() {
     //  });
   }
 
-  async function onChange(e) {
-    if (!e.target.files[0]) return
+  //async function onChange(e) {
+  async onChange(e) {
+      if (!e.target.files[0]) return
     const file = e.target.files[0];
     setFormData({ ...formData, image: file.name });
     await Storage.put(file.name, file);
     fetchItems();
   }
-
-  return (
+  
+  render(){
+    return (
     <div className="App">
       <Router>
           <div>
@@ -154,7 +159,7 @@ function App() {
 
       <AmplifySignOut />
     </div>
-  );
+  )};
 }
 
 export default withAuthenticator(App);
