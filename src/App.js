@@ -19,16 +19,16 @@ function App() {
   const [items, setItems] = useState(initialItemState);
   const [formData, setFormData] = useState(initialFormState);
 
-  constructor(props) {
-    super(props);
-    //this.handleChange1 = this.handleChange1.bind(this)
-    //this.handleChange2 = this.handleChange2.bind(this)
-    //this.handleClick = this.handleClick.bind(this)
-    this.editItem = this.editItem.bind(this)
-    this.state = {
-      id: ""
-    }
-  }
+  // constructor(props) {
+  //   super(props);
+  //   //this.handleChange1 = this.handleChange1.bind(this)
+  //   //this.handleChange2 = this.handleChange2.bind(this)
+  //   //this.handleClick = this.handleClick.bind(this)
+  //   this.editItem = this.editItem.bind(this);
+  //   this.state = {
+  //     id: ""
+  //   };
+  // }
 
 
 
@@ -68,12 +68,13 @@ function App() {
 
   function editItem({id}) {
   //async function editItem({ id }) {
-     this.props.history.push({
-       pathname: '/detail',
-       state: { 
-         id: id
-       }
-     });
+
+    // this.props.history.push({
+    //    pathname: '/detail',
+    //    state: { 
+    //      id: id
+    //    }
+    //  });
   }
 
   async function onChange(e) {
