@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { API, Storage } from 'aws-amplify';
+//import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+//import { listItems } from './graphql/queries';
+import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
+
+const initialFormState = { name: '', description: '' }
 
 class Detail extends Component{
+
   constructor(props) {
     super(props);
     //this.handleChange1 = this.handleChange1.bind(this)
@@ -14,7 +21,6 @@ class Detail extends Component{
     //this.editItem = this.editItem.bind(this);
     //this.onChange = this.onChange.bind(this);
     this.state = {
-      items: initialItemState,
       formData: initialFormState
     };
 
