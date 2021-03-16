@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Detail from './detail';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
@@ -62,6 +63,14 @@ function App() {
 
   return (
     <div className="App">
+      <Router>
+          <div>
+            {/* <Route exact path='/' component={Home}/> */}
+            <Route path='/detail' component={Detail}/>
+          </div>
+      </Router>
+
+
       <h1>I's choice</h1>
       <div style={{marginBottom: 30}}>
         {
