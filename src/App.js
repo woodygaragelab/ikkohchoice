@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 //import { API, Storage } from 'aws-amplify';
-//import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 //import { listItems } from './graphql/queries';
 //import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -117,10 +117,10 @@ function App() {
        </div>              
       </div>               */}
 
-      {/* // <AmplifySignOut /> */}
+      // <AmplifySignOut />
     </div>
   );
 }
 
-//export default withAuthenticator(App);
- export default App;
+export default withAuthenticator(App);
+// export default App;
