@@ -6,10 +6,30 @@ class Detail extends Component{
     super(props);
     //this.handleChange1 = this.handleChange1.bind(this)
     //this.handleChange2 = this.handleChange2.bind(this)
-    this.handleClick = this.handleClick.bind(this)
+    // this.handleClick = this.handleClick.bind(this)
+    // this.state = {
+    //   id: ""
+    // }
+    this.createItem = this.createItem.bind(this);
+    //this.editItem = this.editItem.bind(this);
+    //this.onChange = this.onChange.bind(this);
     this.state = {
-      id: ""
+      items: initialItemState,
+      formData: initialFormState
+    };
+
+  }
+
+  async createItem() {
+    if (!this.state.formData.name || !this.state.formData.description) return;
+    await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
+    if (this.state.formData.image) {
+      const image = await Storage.get(this.state.formData.image);
+      this.state.formData.image = image;
+      this.setState({formData: this.state.formData});
     }
+    this.setState({items: [ ...this.state.items, this.state.formData ]});
+    this.setState({formData: initialFormState});    
   }
 
   //handleChange1(e){
