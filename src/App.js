@@ -28,7 +28,10 @@ class App extends React.Component {
     //this.handleChange1 = this.handleChange1.bind(this)
     //this.handleChange2 = this.handleChange2.bind(this)
     //this.handleClick = this.handleClick.bind(this)
+    this.fetchItems = this.fetchItems.bind(this);
+    this.createItem = this.createItem.bind(this);
     this.editItem = this.editItem.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.state = {
       items: initialItemState,
       formData: initialFormState
@@ -41,7 +44,7 @@ class App extends React.Component {
   //async function fetchItems() {
   //async fetchItems() {
   fetchItems() {
-      const apiData = await API.graphql({ query: listItems });
+    const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
       if (item.image) {
