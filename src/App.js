@@ -42,8 +42,8 @@ class App extends React.Component {
 
 
   //async function fetchItems() {
-  //async fetchItems() {
-  fetchItems() {
+  async fetchItems() {
+  //fetchItems() {
     const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
@@ -58,8 +58,8 @@ class App extends React.Component {
   }
 
   //async function createItem() {
-  //async createItem() {
-  createItem() {
+  async createItem() {
+  //createItem() {
     if (!this.state.formData.name || !this.state.formData.description) return;
     await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
     if (this.state.formData.image) {
@@ -94,8 +94,8 @@ class App extends React.Component {
   }
 
   //async function onChange(e) {
-  //async onChange(e) {
-  onChange(e) {
+  async onChange(e) {
+  //onChange(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
     //setFormData({ ...formData, image: file.name });
