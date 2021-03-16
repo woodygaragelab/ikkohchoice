@@ -53,6 +53,15 @@ function App() {
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
 
+  async function editItem({ id }) {
+     this.props.history.push({
+       pathname: '/detail',
+       state: { 
+         id: id
+       }
+     });
+  }
+
   async function onChange(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
@@ -88,6 +97,7 @@ function App() {
                   <div>{item.description}</div>
                 </div>
                 <div class="col-2">
+                  <Button onClick={() =>  editItem(item)} variant="outline-primary">Edit</Button>
                   <Button onClick={() =>  deleteItem(item)} variant="outline-primary">Delete</Button>
                 </div>
               </div>              
