@@ -57,7 +57,7 @@ class App extends React.Component {
   async createItem() {
     if (!this.state.formData.name || !this.state.formData.description) return;
     await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
-    if (formData.image) {
+    if (this.state.formData.image) {
       const image = await Storage.get(this.state.formData.image);
       //formData.image = image;
       this.setState({formData: {image: image}});
@@ -147,17 +147,17 @@ class App extends React.Component {
          <div class="col-3">
            <input
             //  onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-             onChange={e => this.setState({formData: { ...formData, 'name': e.target.value }})}
+             onChange={e => this.setState({formData: { ...this.state.formData, 'name': e.target.value }})}
              placeholder="name"
-             value={formData.name}
+             value={this.state.formData.name}
            />
          </div>
          <div class="col-3">
            <input
             //  onChange={e => setFormData({ ...formData, 'description': e.target.value})}
-             onChange={e => this.setState({formData: { ...formData, 'description': e.target.value }})}
+             onChange={e => this.setState({formData: { ...this.state.formData, 'description': e.target.value }})}
              placeholder="description"
-             value={formData.description}
+             value={this.state.formData.description}
            />
          </div>
          <div class="col-3">
