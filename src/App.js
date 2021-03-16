@@ -162,7 +162,7 @@ class App extends React.Component {
          <div class="col-3">
            <input
              type="file"
-             onChange={onChange}
+             onChange={this.onChange}
            />
          </div>
        </div>              
