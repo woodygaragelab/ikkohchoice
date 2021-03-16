@@ -76,12 +76,12 @@ class App extends React.Component {
   editItem({id}) {
   //async function editItem({ id }) {
 
-    // this.props.history.push({
-    //    pathname: '/detail',
-    //    state: { 
-    //      id: id
-    //    }
-    //  });
+    this.props.history.push({
+       pathname: '/detail',
+       state: { 
+         id: id
+       }
+     });
   }
 
   async onChange(e) {
