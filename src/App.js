@@ -40,7 +40,7 @@ class App extends React.Component {
 
   //async function fetchItems() {
   async fetchItems() {
-      const apiData = await API.graphql({ query: listItems });
+    const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
       if (item.image) {
@@ -55,14 +55,15 @@ class App extends React.Component {
 
   //async function createItem() {
   async createItem() {
-      if (!formData.name || !formData.description) return;
-    await API.graphql({ query: createItemMutation, variables: { input: formData } });
+    if (!this.state.formData.name || !this.state.formData.description) return;
+    await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
     if (formData.image) {
-      const image = await Storage.get(formData.image);
-      formData.image = image;
+      const image = await Storage.get(this.state.formData.image);
+      //formData.image = image;
+      this.setState({formData: {image: image}});
     }
     //setItems([ ...items, formData ]);
-    this.setState({items: [ ...items, formData ]});
+    this.setState({items: [ ...this.state.items, this.state.formData ]});
     //setFormData(initialFormState);
     this.setState({formData: initialFormState});
     
@@ -70,7 +71,7 @@ class App extends React.Component {
 
   //async function deleteItem({ id }) {
   async deleteItem({ id }) {
-      const newItemsArray = items.filter(item => item.id !== id);
+      const newItemsArray = this.state.items.filter(item => item.id !== id);
     //setItems(newItemsArray);
     this.setState({items: newItemsArray});
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
@@ -92,9 +93,9 @@ class App extends React.Component {
       if (!e.target.files[0]) return
     const file = e.target.files[0];
     //setFormData({ ...formData, image: file.name });
-    this.setState({formData: { ...formData, image: file.name }});
+    this.setState({formData: { ...this.state.formData, image: file.name }});
     await Storage.put(file.name, file);
-    fetchItems();
+    this.fetchItems();
   }
   
   render(){
@@ -111,7 +112,7 @@ class App extends React.Component {
       <h1>I's choice</h1>
       <div style={{marginBottom: 30}}>
         {
-          items.map(item => (
+          this.state.items.map(item => (
             <Card>
             <Card.Body>
               {/* <div key={item.id || item.name}> */}
@@ -141,7 +142,7 @@ class App extends React.Component {
       <div class="container-fluid">
        <div class="row">
          <div class="col-3">
-           <Button onClick={createItem} variant="outline-primary">ADD</Button>
+           <Button onClick={this.createItem} variant="outline-primary">ADD</Button>
          </div>
          <div class="col-3">
            <input
