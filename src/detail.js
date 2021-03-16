@@ -50,4 +50,5 @@ class Detail extends Component{
   }
 }
 
-export default withRouter(Detail);
+//export default withRouter(Detail);
+export default Detail;
