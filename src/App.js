@@ -17,9 +17,9 @@ function App() {
   const [items, setItems] = useState(initialItemState);
   const [formData, setFormData] = useState(initialFormState);
 
-  // useEffect(() => {
-  //   fetchItems();
-  // }, []);
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
   async function fetchItems() {
     const apiData = await API.graphql({ query: listItems });
@@ -34,30 +34,30 @@ function App() {
     setItems(apiData.data.listItems.items);
   }
 
-  // async function createItem() {
-  //   if (!formData.name || !formData.description) return;
-  //   await API.graphql({ query: createItemMutation, variables: { input: formData } });
-  //   if (formData.image) {
-  //     const image = await Storage.get(formData.image);
-  //     formData.image = image;
-  //   }
-  //   setItems([ ...items, formData ]);
-  //   setFormData(initialFormState);
-  // }
+  async function createItem() {
+    if (!formData.name || !formData.description) return;
+    await API.graphql({ query: createItemMutation, variables: { input: formData } });
+    if (formData.image) {
+      const image = await Storage.get(formData.image);
+      formData.image = image;
+    }
+    setItems([ ...items, formData ]);
+    setFormData(initialFormState);
+  }
 
-  // async function deleteItem({ id }) {
-  //   const newItemsArray = items.filter(item => item.id !== id);
-  //   setItems(newItemsArray);
-  //   await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
-  // }
+  async function deleteItem({ id }) {
+    const newItemsArray = items.filter(item => item.id !== id);
+    setItems(newItemsArray);
+    await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
+  }
 
-  // async function onChange(e) {
-  //   if (!e.target.files[0]) return
-  //   const file = e.target.files[0];
-  //   setFormData({ ...formData, image: file.name });
-  //   await Storage.put(file.name, file);
-  //   fetchItems();
-  // }
+  async function onChange(e) {
+    if (!e.target.files[0]) return
+    const file = e.target.files[0];
+    setFormData({ ...formData, image: file.name });
+    await Storage.put(file.name, file);
+    fetchItems();
+  }
 
   return (
     <div className="App">
@@ -67,7 +67,7 @@ function App() {
           items.map(item => (
             <Card>
             <Card.Body>
-              {/* <div key={item.id || item.name}>
+              {/* <div key={item.id || item.name}> */}
               <div class="container-fluid">
               <div class="row">
                 <div class="col-4">
@@ -81,15 +81,14 @@ function App() {
                   <Button onClick={() =>  deleteItem(item)} variant="outline-primary">Delete</Button>
                 </div>
               </div>              
-              </div>               */}
+              </div>              
             </Card.Body>
             </Card>
           ))
         }
-        </div>
+      </div>
 
-
-    {/* <div class="container-fluid">
+      <div class="container-fluid">
        <div class="row">
          <div class="col-3">
            <Button onClick={createItem} variant="outline-primary">ADD</Button>
@@ -115,9 +114,9 @@ function App() {
            />
          </div>
        </div>              
-      </div>               */}
+      </div> 
 
-      // <AmplifySignOut />
+      <AmplifySignOut />
     </div>
   );
 }
