@@ -8,6 +8,7 @@ import { createItem as createItemMutation, deleteItem as deleteItemMutation } fr
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Detail from './detail';
 
 const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
