@@ -14,12 +14,6 @@ const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
 
 class App extends React.Component {
-  // const [items, setItems] = useState([]);
-  // const [items, setItems] = useState(initialItemState);
-  // const [formData, setFormData] = useState(initialFormState);
-  // useEffect(() => {
-  //   fetchItems();
-  // }, []);
 
   constructor(props) {
     super(props);
@@ -33,9 +27,6 @@ class App extends React.Component {
     };
   }
 
-
-
-
   async fetchItems() {
     const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
@@ -46,7 +37,6 @@ class App extends React.Component {
       }
       return item;
     }))
-    //setItems(apiData.data.listItems.items);
     this.setState({items: apiData.data.listItems.items});
   }
 
@@ -55,16 +45,11 @@ class App extends React.Component {
     await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
     if (this.state.formData.image) {
       const image = await Storage.get(this.state.formData.image);
-      //formData.image = image;
       this.state.formData.image = image;
-      //this.setState({formData: {image: image}});
       this.setState({formData: this.state.formData});
     }
-    //setItems([ ...items, formData ]);
     this.setState({items: [ ...this.state.items, this.state.formData ]});
-    //setFormData(initialFormState);
-    this.setState({formData: initialFormState});
-    
+    this.setState({formData: initialFormState});    
   }
 
   async deleteItem({ id }) {
@@ -74,8 +59,6 @@ class App extends React.Component {
   }
 
   editItem({id}) {
-  //async function editItem({ id }) {
-
     this.props.history.push({
        pathname: '/detail',
        state: { 
@@ -87,7 +70,6 @@ class App extends React.Component {
   async onChange(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
-    //setFormData({ ...formData, image: file.name });
     this.setState({formData: { ...this.state.formData, image: file.name }});
     await Storage.put(file.name, file);
     this.fetchItems();
@@ -141,7 +123,6 @@ class App extends React.Component {
          </div>
          <div class="col-3">
            <input
-            //  onChange={e => setFormData({ ...formData, 'name': e.target.value})}
              onChange={e => this.setState({formData: { ...this.state.formData, 'name': e.target.value }})}
              placeholder="name"
              value={this.state.formData.name}
@@ -149,7 +130,6 @@ class App extends React.Component {
          </div>
          <div class="col-3">
            <input
-            //  onChange={e => setFormData({ ...formData, 'description': e.target.value})}
              onChange={e => this.setState({formData: { ...this.state.formData, 'description': e.target.value }})}
              placeholder="description"
              value={this.state.formData.description}
