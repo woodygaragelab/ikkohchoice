@@ -21,18 +21,18 @@ function App() {
   //   fetchItems();
   // }, []);
 
-  // async function fetchItems() {
-  //   const apiData = await API.graphql({ query: listItems });
-  //   const itemsFromAPI = apiData.data.listItems.items;
-  //   await Promise.all(itemsFromAPI.map(async item => {
-  //     if (item.image) {
-  //       const image = await Storage.get(item.image);
-  //       item.image = image;
-  //     }
-  //     return item;
-  //   }))
-  //   setItems(apiData.data.listItems.items);
-  // }
+  async function fetchItems() {
+    const apiData = await API.graphql({ query: listItems });
+    const itemsFromAPI = apiData.data.listItems.items;
+    await Promise.all(itemsFromAPI.map(async item => {
+      if (item.image) {
+        const image = await Storage.get(item.image);
+        item.image = image;
+      }
+      return item;
+    }))
+    setItems(apiData.data.listItems.items);
+  }
 
   // async function createItem() {
   //   if (!formData.name || !formData.description) return;
