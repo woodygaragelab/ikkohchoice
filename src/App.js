@@ -15,7 +15,8 @@ const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
 
 function App() {
-  //const [items, setItems] = useState([]);
+//class App extends React.Component {
+  const [items, setItems] = useState([]);
   const [items, setItems] = useState(initialItemState);
   const [formData, setFormData] = useState(initialFormState);
 

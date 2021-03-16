@@ -24,26 +24,26 @@ class Detail extends Component{
   //  })
   //}
 
-//   handleClick() {
-//     this.props.history.push({
-//       pathname: '/list',
-//       state: { 
-//         text1: this.state.text1,
-//         text2: this.state.text2
-//       }
-//     });
-//   }
+  handleClick() {
+    this.props.history.push({
+      pathname: '/list',
+      state: { 
+        name: this.state.name,
+        description: this.state.description
+      }
+    });
+  }
 
   render(){
     return(
       <div>
         詳細ページ id:{this.props.location.state.id}
-        {/* <br/>
-        <input type='text' value={this.state.text1} onChange={ (e) => this.handleChange1(e) }></input>
+        <br/>
+        {/* <input type='text' value={this.state.text1} onChange={ (e) => this.handleChange1(e) }></input>
         <p>{this.state.text1}</p>
         <input type='text' value={this.state.text2} onChange={ (e) => this.handleChange2(e) }></input>
-        <p>{this.state.text2}</p>
-        <button onClick={this.handleClick}>内容確認</button> */}
+        <p>{this.state.text2}</p> */}
+        <button onClick={this.handleClick}>OK</button>
       </div>
     )
   }
