@@ -30,7 +30,8 @@ class App extends React.Component {
     //this.handleClick = this.handleClick.bind(this)
     this.editItem = this.editItem.bind(this);
     this.state = {
-      id: ""
+      items: initialItemState,
+      formData: initialFormState
     };
   }
 
@@ -48,7 +49,8 @@ class App extends React.Component {
       }
       return item;
     }))
-    setItems(apiData.data.listItems.items);
+    //setItems(apiData.data.listItems.items);
+    this.setState({items: apiData.data.listItems.items});
   }
 
   //async function createItem() {
@@ -59,14 +61,18 @@ class App extends React.Component {
       const image = await Storage.get(formData.image);
       formData.image = image;
     }
-    setItems([ ...items, formData ]);
-    setFormData(initialFormState);
+    //setItems([ ...items, formData ]);
+    this.setState({items: [ ...items, formData ]});
+    //setFormData(initialFormState);
+    this.setState({formData: initialFormState});
+    
   }
 
   //async function deleteItem({ id }) {
   async deleteItem({ id }) {
       const newItemsArray = items.filter(item => item.id !== id);
-    setItems(newItemsArray);
+    //setItems(newItemsArray);
+    this.setState({items: newItemsArray});
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
 
@@ -85,7 +91,8 @@ class App extends React.Component {
   async onChange(e) {
       if (!e.target.files[0]) return
     const file = e.target.files[0];
-    setFormData({ ...formData, image: file.name });
+    //setFormData({ ...formData, image: file.name });
+    this.setState({formData: { ...formData, image: file.name }});
     await Storage.put(file.name, file);
     fetchItems();
   }
@@ -118,8 +125,10 @@ class App extends React.Component {
                   <div>{item.description}</div>
                 </div>
                 <div class="col-2">
-                  <Button onClick={() =>  editItem(item)} variant="outline-primary">Edit</Button>
-                  <Button onClick={() =>  deleteItem(item)} variant="outline-primary">Delete</Button>
+                  {/* <Button onClick={() =>  editItem(item)} variant="outline-primary">Edit</Button>
+                  <Button onClick={() =>  deleteItem(item)} variant="outline-primary">Delete</Button> */}
+                  <Button onClick={() =>  this.editItem(item)} variant="outline-primary">Edit</Button>
+                  <Button onClick={() =>  this.deleteItem(item)} variant="outline-primary">Delete</Button>
                 </div>
               </div>              
               </div>              
@@ -136,14 +145,16 @@ class App extends React.Component {
          </div>
          <div class="col-3">
            <input
-             onChange={e => setFormData({ ...formData, 'name': e.target.value})}
+            //  onChange={e => setFormData({ ...formData, 'name': e.target.value})}
+             onChange={e => this.setState({formData: { ...formData, 'name': e.target.value }})}
              placeholder="name"
              value={formData.name}
            />
          </div>
          <div class="col-3">
            <input
-             onChange={e => setFormData({ ...formData, 'description': e.target.value})}
+            //  onChange={e => setFormData({ ...formData, 'description': e.target.value})}
+             onChange={e => this.setState({formData: { ...formData, 'description': e.target.value }})}
              placeholder="description"
              value={formData.description}
            />
