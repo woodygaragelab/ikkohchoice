@@ -1,4 +1,3 @@
-//import logo from './logo.svg';
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { API, Storage } from 'aws-amplify';
@@ -14,7 +13,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
 
-//function App() {
 class App extends React.Component {
   // const [items, setItems] = useState([]);
   // const [items, setItems] = useState(initialItemState);
@@ -25,9 +23,6 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    //this.handleChange1 = this.handleChange1.bind(this)
-    //this.handleChange2 = this.handleChange2.bind(this)
-    //this.handleClick = this.handleClick.bind(this)
     this.fetchItems = this.fetchItems.bind(this);
     this.createItem = this.createItem.bind(this);
     this.editItem = this.editItem.bind(this);
@@ -41,9 +36,7 @@ class App extends React.Component {
 
 
 
-  //async function fetchItems() {
   async fetchItems() {
-  //fetchItems() {
     const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
@@ -57,15 +50,15 @@ class App extends React.Component {
     this.setState({items: apiData.data.listItems.items});
   }
 
-  //async function createItem() {
   async createItem() {
-  //createItem() {
     if (!this.state.formData.name || !this.state.formData.description) return;
     await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
     if (this.state.formData.image) {
       const image = await Storage.get(this.state.formData.image);
       //formData.image = image;
-      this.setState({formData: {image: image}});
+      this.state.formData.image = image;
+      //this.setState({formData: {image: image}});
+      this.setState({formData: this.state.formData});
     }
     //setItems([ ...items, formData ]);
     this.setState({items: [ ...this.state.items, this.state.formData ]});
@@ -74,10 +67,8 @@ class App extends React.Component {
     
   }
 
-  //async function deleteItem({ id }) {
   async deleteItem({ id }) {
     const newItemsArray = this.state.items.filter(item => item.id !== id);
-    //setItems(newItemsArray);
     this.setState({items: newItemsArray});
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
@@ -93,9 +84,7 @@ class App extends React.Component {
     //  });
   }
 
-  //async function onChange(e) {
   async onChange(e) {
-  //onChange(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
     //setFormData({ ...formData, image: file.name });
