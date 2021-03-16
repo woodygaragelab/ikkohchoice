@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class Detail extends Component{
   constructor(props) {
@@ -8,8 +8,7 @@ class Detail extends Component{
     //this.handleChange2 = this.handleChange2.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.state = {
-      text1: "",
-      text2: ""
+      id: ""
     }
   }
 
@@ -38,7 +37,7 @@ class Detail extends Component{
   render(){
     return(
       <div>
-        詳細ページ
+        詳細ページ id:{this.props.location.state.id}
         {/* <br/>
         <input type='text' value={this.state.text1} onChange={ (e) => this.handleChange1(e) }></input>
         <p>{this.state.text1}</p>

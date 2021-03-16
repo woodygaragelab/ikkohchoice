@@ -19,6 +19,19 @@ function App() {
   const [items, setItems] = useState(initialItemState);
   const [formData, setFormData] = useState(initialFormState);
 
+  constructor(props) {
+    super(props);
+    //this.handleChange1 = this.handleChange1.bind(this)
+    //this.handleChange2 = this.handleChange2.bind(this)
+    //this.handleClick = this.handleClick.bind(this)
+    this.editItem = this.editItem.bind(this)
+    this.state = {
+      id: ""
+    }
+  }
+
+
+
   useEffect(() => {
     fetchItems();
   }, []);
@@ -53,7 +66,8 @@ function App() {
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
 
-  async function editItem({ id }) {
+  function editItem({id}) {
+  //async function editItem({ id }) {
      this.props.history.push({
        pathname: '/detail',
        state: { 
