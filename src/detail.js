@@ -20,6 +20,9 @@ class Detail extends Component{
     this.createItem = this.createItem.bind(this);
     //this.editItem = this.editItem.bind(this);
     //this.onChange = this.onChange.bind(this);
+    
+    //this.props.location.state.id
+    //this.setState({formData: this.state.formData});
     this.state = {
       formData: initialFormState
     };
@@ -75,5 +78,5 @@ class Detail extends Component{
   }
 }
 
-//export default withRouter(Detail);
+// export default withRouter(Detail);
 export default Detail;
