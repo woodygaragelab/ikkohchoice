@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Detail from './detail';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
