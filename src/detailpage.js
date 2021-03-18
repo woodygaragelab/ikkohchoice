@@ -3,20 +3,18 @@ import { withRouter } from 'react-router-dom';
 import { API, Storage } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 //import { listItems } from './graphql/queries';
-import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
+import { createItem as createItemMutation } from './graphql/mutations';
+//import { deleteItem as deleteItemMutation } from './graphql/mutations';
 
 const initialFormState = { name: '', description: '' }
 
-class Detail extends Component{
+class DetailPage extends Component{
 
   constructor(props) {
     super(props);
     //this.handleChange1 = this.handleChange1.bind(this)
     //this.handleChange2 = this.handleChange2.bind(this)
-    // this.handleClick = this.handleClick.bind(this)
-    // this.state = {
-    //   id: ""
-    // }
+    this.handleClick = this.handleClick.bind(this)
     this.createItem = this.createItem.bind(this);
     //this.editItem = this.editItem.bind(this);
     //this.onChange = this.onChange.bind(this);
@@ -24,6 +22,7 @@ class Detail extends Component{
     //this.props.location.state.id
     //this.setState({formData: this.state.formData});
     this.state = {
+      id: "",
       formData: initialFormState
     };
 
@@ -55,7 +54,7 @@ class Detail extends Component{
 
   handleClick() {
     this.props.history.push({
-      pathname: '/list',
+      pathname: '/',
       state: { 
         name: this.state.name,
         description: this.state.description
@@ -78,5 +77,5 @@ class Detail extends Component{
   }
 }
 
-// export default withRouter(Detail);
-export default Detail;
+export default withRouter(DetailPage);
+//export default DetailPage;

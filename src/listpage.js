@@ -1,39 +1,41 @@
 import React from 'react';
 //import { useState, useEffect } from 'react';
-//import { Component } from 'react';
+import { Component } from 'react';
 import './App.css';
 import { API, Storage } from 'aws-amplify';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+//import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listItems } from './graphql/queries';
 import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import Button from 'react-bootstrap/Button';
-//import Card from 'react-bootstrap/Card';
-import ListPage from './listpage';
-import DetailPage from './detailpage';
-import { BrowserRouter as Router } from 'react-router-dom';
-import {Route, Switch} from 'react-router-dom';
-//import { withRouter } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+//import ListPage from './listpage';
+//import DetailPage from './detailpage';
+//import { BrowserRouter as Router } from 'react-router-dom';
+//import {Route, Switch} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 //import FirstPage from './FirstPage';
 //import SecondPage from './SecondPage';
 
 const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
 
-class App extends React.Component {
-//export default class Routes extends Component {
+class ListPage extends Component {
 
-  constructor(props) {
+  constructor(props){
     super(props);
     this.fetchItems = this.fetchItems.bind(this);
     this.createItem = this.createItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.handleClick = this.handleClick.bind(this)
+    // this.handleClick = this.handleClick.bind(this)
+    
+    this.fetchItems();
     this.state = {
       items: initialItemState,
       formData: initialFormState
     };
+
   }
 
   async fetchItems() {
@@ -67,9 +69,13 @@ class App extends React.Component {
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
 
+  // handleClick(){
+  //   this.props.history.push('/detailpage')
+  // }
+
   editItem({id}) {
     this.props.history.push({
-       pathname: '/detail',
+       pathname: '/detailpage',
        state: { 
          id: id
        }
@@ -84,35 +90,44 @@ class App extends React.Component {
     this.fetchItems();
   }
 
-  handleClick(){
-    this.props.history.push('/secondpage')
+  handleChange(e){
+    this.setState({
+      text: e.target.value
+    })
   }
 
-
-  render(){
+  render() {
     return (
-      <div className="App">
+      <div style={{marginBottom: 30}}>
+        <h1>I's choice</h1>
+        {/* <button onClick={this.handleClick}>画面遷移します</button> */}
 
-        <div>
-        <Router>
-        <Switch>
-            <Route exact={true} path='/' component={ListPage}/>
-            <Route exact={true} path='/detailpage' component={DetailPage}/>
-        </Switch>
-        </Router>
-        </div>
-      
+        {
+          this.state.items.map(item => (
+            <Card>
+            <Card.Body>
+              {/* <div key={item.id || item.name}> */}
+              <div class="container-fluid">
+              <div class="row">
+                <div class="col-4">
+                  <img src={item.image} style={{width: 50,height:50}} alt=""/>
+                </div>
+                <div class="col-6">
+                  <div>{item.name}</div>
+                  <div>{item.description}</div>
+                </div>
+                <div class="col-2">
+                  <Button onClick={() =>  this.editItem(item)} variant="outline-primary">Edit</Button>
+                  <Button onClick={() =>  this.deleteItem(item)} variant="outline-primary">Delete</Button>
+                </div>
+              </div>              
+              </div>              
+            </Card.Body>
+            </Card>
+          ))
+        }
 
-      {/* <Router> */}
-          {/* <div> */}
-            {/* <Route exact path='/' component={Home}/> */}
-            {/* <Route path='/detail' component={Detail}/> */}
-          {/* </div> */}
-      {/* </Router> */}
-
-
-          
-      {/* <div class="container-fluid">
+      <div class="container-fluid">
        <div class="row">
          <div class="col-3">
            <Button onClick={this.createItem} variant="outline-primary">ADD</Button>
@@ -138,13 +153,12 @@ class App extends React.Component {
            />
          </div>
        </div>              
-      </div>  */}
+      </div> 
 
-      <AmplifySignOut />
-    </div>
-  )};
+      </div>
+    );
+  }
 }
 
-export default withAuthenticator(App);
-//export default App;
-// export default withRouter(App)
+export default withRouter(ListPage)  
+      
