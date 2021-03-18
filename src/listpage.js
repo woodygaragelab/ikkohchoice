@@ -9,13 +9,7 @@ import { createItem as createItemMutation, deleteItem as deleteItemMutation } fr
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-//import ListPage from './listpage';
-//import DetailPage from './detailpage';
-//import { BrowserRouter as Router } from 'react-router-dom';
-//import {Route, Switch} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-//import FirstPage from './FirstPage';
-//import SecondPage from './SecondPage';
 
 const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
@@ -73,13 +67,18 @@ class ListPage extends Component {
   //   this.props.history.push('/detailpage')
   // }
 
-  editItem({id}) {
+  //editItem({id}) {
+  editItem(item) {
+    const id = item.id;
+    const name = item.name;
     this.props.history.push({
-       pathname: '/detailpage',
-       state: { 
-         id: id
-       }
-     });
+      pathname: '/detailpage',
+      state: { 
+        item: item,
+        id: id,
+        name: name
+      }
+    });
   }
 
   async onChange(e) {

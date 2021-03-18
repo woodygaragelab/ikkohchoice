@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { API, Storage } from 'aws-amplify';
-//import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-//import { listItems } from './graphql/queries';
 import { createItem as createItemMutation } from './graphql/mutations';
-//import { deleteItem as deleteItemMutation } from './graphql/mutations';
 
 const initialFormState = { name: '', description: '' }
 
@@ -66,7 +63,9 @@ class DetailPage extends Component{
     return(
       <div>
         詳細ページ id:{this.props.location.state.id}
+        name:{this.props.location.state.name}
         <br/>
+        item:{this.props.location.state.item.description}
         {/* <input type='text' value={this.state.text1} onChange={ (e) => this.handleChange1(e) }></input>
         <p>{this.state.text1}</p>
         <input type='text' value={this.state.text2} onChange={ (e) => this.handleChange2(e) }></input>
@@ -78,4 +77,3 @@ class DetailPage extends Component{
 }
 
 export default withRouter(DetailPage);
-//export default DetailPage;
