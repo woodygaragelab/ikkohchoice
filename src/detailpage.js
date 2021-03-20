@@ -62,21 +62,20 @@ class DetailPage extends Component{
 
   render(){
     return(
-      <div>
-        {/* 詳細ページ id:{this.props.location.state.id} */}
-        {/* <br/> */}
-        {/* name:{this.state.item.name} */}
-        {/* <br/> */}
-        {/* item:{this.props.location.state.item.description} */}
-        <div class="col-6">
+      // <div>
+      <div class="container-fluid">
+      <div class="row">
+        <div class="col-8">
         <input type='text' value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input>
         </div>
         {/* <p>{this.state.item.name}</p> */}
-        <div class="col-6">
+        <div class="col-8">
         <input type='text' value={this.state.item.description} onChange={ (e) => this.handleChange2(e) }></input>
         </div>
         {/* <p>{this.state.item.description}</p> */}
-        <button onClick={this.handleClick}>OK</button>
+        {/* <button onClick={this.handleClick}>OK</button> */}
+        <Button onClick={this.handleClick}>OK</Button>
+      </div>
       </div>
     )
   }
