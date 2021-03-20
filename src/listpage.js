@@ -106,20 +106,21 @@ class ListPage extends Component {
           this.state.items.map(item => (
             <Card>
             <Card.Body>
-              {/* <div key={item.id || item.name}> */}
-              <div class="container-fluid">
-              <div class="row">
-                <div class="col-4">
+              <div key={item.id || item.name}>
+              <div className="container-fluid">
+              <div className="row">
+                <div className="col-4">
                   <img src={item.image} style={{width: 50,height:50}} alt=""/>
                 </div>
-                <div class="col-6">
+                <div className="col-6">
                   <div>{item.name}</div>
                   <div>{item.description}</div>
                 </div>
-                <div class="col-2">
+                <div className="col-2">
                   <Button onClick={() =>  this.editItem(item)} variant="outline-primary">Edit</Button>
                   <Button onClick={() =>  this.deleteItem(item)} variant="outline-primary">Delete</Button>
                 </div>
+              </div>              
               </div>              
               </div>              
             </Card.Body>
@@ -127,26 +128,26 @@ class ListPage extends Component {
           ))
         }
 
-      <div class="container-fluid">
-       <div class="row">
-         <div class="col-3">
+      <div className="container-fluid">
+       <div className="row">
+         <div className="col-3">
            <Button onClick={this.createItem} variant="outline-primary">ADD</Button>
          </div>
-         <div class="col-3">
+         <div className="col-3">
            <input
              onChange={e => this.setState({formData: { ...this.state.formData, 'name': e.target.value }})}
              placeholder="name"
              value={this.state.formData.name}
            />
          </div>
-         <div class="col-3">
+         <div className="col-3">
            <input
              onChange={e => this.setState({formData: { ...this.state.formData, 'description': e.target.value }})}
              placeholder="description"
              value={this.state.formData.description}
            />
          </div>
-         <div class="col-3">
+         <div className="col-3">
            <input
              type="file"
              onChange={this.onChange}

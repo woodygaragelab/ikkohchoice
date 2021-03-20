@@ -1,27 +1,19 @@
 import React from 'react';
-//import { useState, useEffect } from 'react';
-//import { Component } from 'react';
 import './App.css';
 import { API, Storage } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listItems } from './graphql/queries';
 import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import Button from 'react-bootstrap/Button';
-//import Card from 'react-bootstrap/Card';
 import ListPage from './listpage';
 import DetailPage from './detailpage';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {Route, Switch} from 'react-router-dom';
-//import { withRouter } from 'react-router-dom';
-//import FirstPage from './FirstPage';
-//import SecondPage from './SecondPage';
 
 const initialFormState = { name: '', description: '' }
 const initialItemState = [{ name: '', description: '' }]
 
 class App extends React.Component {
-//export default class Routes extends Component {
 
   constructor(props) {
     super(props);
@@ -102,44 +94,6 @@ class App extends React.Component {
         </Router>
         </div>
       
-
-      {/* <Router> */}
-          {/* <div> */}
-            {/* <Route exact path='/' component={Home}/> */}
-            {/* <Route path='/detail' component={Detail}/> */}
-          {/* </div> */}
-      {/* </Router> */}
-
-
-          
-      {/* <div class="container-fluid">
-       <div class="row">
-         <div class="col-3">
-           <Button onClick={this.createItem} variant="outline-primary">ADD</Button>
-         </div>
-         <div class="col-3">
-           <input
-             onChange={e => this.setState({formData: { ...this.state.formData, 'name': e.target.value }})}
-             placeholder="name"
-             value={this.state.formData.name}
-           />
-         </div>
-         <div class="col-3">
-           <input
-             onChange={e => this.setState({formData: { ...this.state.formData, 'description': e.target.value }})}
-             placeholder="description"
-             value={this.state.formData.description}
-           />
-         </div>
-         <div class="col-3">
-           <input
-             type="file"
-             onChange={this.onChange}
-           />
-         </div>
-       </div>              
-      </div>  */}
-
       <AmplifySignOut />
     </div>
   )};

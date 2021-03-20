@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { API, Storage } from 'aws-amplify';
 import { createItem as createItemMutation } from './graphql/mutations';
+import { updateItem as updateItemMutation } from './graphql/mutations';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 
 const initialFormState = { name: '', description: '' }
 
@@ -13,7 +13,7 @@ class DetailPage extends Component{
   constructor(props) {
     super(props);
     this.handleChange1 = this.handleChange1.bind(this)
-    //this.handleChange2 = this.handleChange2.bind(this)
+    this.handleChange2 = this.handleChange2.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.createItem = this.createItem.bind(this);
     //this.editItem = this.editItem.bind(this);
@@ -38,19 +38,41 @@ class DetailPage extends Component{
     this.setState({formData: initialFormState});    
   }
 
+  async updateItem() {
+    if (!this.state.item.name || !this.state.item.description) return;
+    const newItem = {
+      id: this.state.item.id,
+      name: this.state.item.name,
+      description: this.state.item.description,
+      image: this.state.item.image
+    };
+    // await API.graphql({ query: updateItemMutation, variables: { input: this.state.item } });
+    await API.graphql({ query: updateItemMutation, variables: { input: newItem } });
+    if (this.state.item.image) {
+      const image = await Storage.get(this.state.item.image);
+      this.state.item.image = image;
+      this.setState({item: this.state.item});
+    }
+  }
+
   handleChange1(e){
    this.setState({
      name: e.target.value
     })
   }
 
-  //handleChange2(e){
-  //  this.setState({
-  //    text2: e.target.value
-  //  })
-  //}
+  handleChange2(e){
+   this.setState({
+     description: e.target.value
+   })
+  }
 
   handleClick() {
+    this.updateItem();
+    this.returnToListPage();
+  }
+
+  returnToListPage() {
     this.props.history.push({
       pathname: '/',
       state: { 
@@ -63,19 +85,25 @@ class DetailPage extends Component{
   render(){
     return(
       <div class="container-fluid">
-      {/* <div class="clearfix"> */}
-      {/* <div class="row"> */}
       <form>
-        {/* <div class="form-group float-left"> */}
         <div class="form-group">
-            <label for="itemname">item name</label>
-            <input type="text" class="form-control col-12" id="itemname" placeholder="item name" value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input>
-            {/* <input type='text' value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input> */}
+            <label for="itemname">タイトル</label>
+            <input
+            type='text' class="form-control" id="itemname" 
+            onChange={e => this.setState({item: { ...this.state.item, 'name': e.target.value }})}
+            placeholder="item name"
+            value={this.state.item.name}
+          />
         </div>
-        {/* <div class="col-8"> */}
         <div class="form-group">
-          <label for="itemdesc">Description</label>
-          <input type='text' class="form-control" id="itemdesc" placeholder="description" value={this.state.item.description} onChange={ (e) => this.handleChange2(e) }></input>
+          <label for="itemdesc">説明</label>
+          <input
+            type='text' class="form-control" id="itemdesc" 
+            onChange={e => this.setState({item: { ...this.state.item, 'description': e.target.value }})}
+            placeholder="description"
+            value={this.state.item.description}
+          />
+
         </div>
         <div class="form-group">
           <Button onClick={this.handleClick}>OK</Button>
