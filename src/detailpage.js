@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { API, Storage } from 'aws-amplify';
 import { createItem as createItemMutation } from './graphql/mutations';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 const initialFormState = { name: '', description: '' }
 
@@ -16,11 +19,8 @@ class DetailPage extends Component{
     //this.editItem = this.editItem.bind(this);
     //this.onChange = this.onChange.bind(this);
     
-    //this.props.location.state.id
-    //this.setState({formData: this.state.formData});
     this.state = {
       id: "",
-      //formData: initialFormState
       item: this.props.location.state.item      
     };
 
@@ -68,11 +68,9 @@ class DetailPage extends Component{
         <div class="col-8">
         <input type='text' value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input>
         </div>
-        {/* <p>{this.state.item.name}</p> */}
         <div class="col-8">
         <input type='text' value={this.state.item.description} onChange={ (e) => this.handleChange2(e) }></input>
         </div>
-        {/* <p>{this.state.item.description}</p> */}
         {/* <button onClick={this.handleClick}>OK</button> */}
         <Button onClick={this.handleClick}>OK</Button>
       </div>
