@@ -63,18 +63,28 @@ class DetailPage extends Component{
   render(){
     return(
       // <div>
-      <div class="container-fluid">
-      <div class="row">
-        <div class="col-8">
-        <input type='text' value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input>
+      // <div class="container-fluid">
+      // <div class="row">
+      <form>
+        {/* // <div class="col-8"> */}
+        <div class="form-group">
+            {/* <label for="exampleInputEmail1">Email address</label> */}
+            <label for="itemname">Email address</label>
+            {/* <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> */}
+            <input type="text" class="form-control" id="itemname" placeholder="item name"></input>
+            {/* <input type='text' value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input> */}
+            {/* <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> */}
         </div>
-        <div class="col-8">
-        <input type='text' value={this.state.item.description} onChange={ (e) => this.handleChange2(e) }></input>
+        {/* </div> */}
+        {/* <div class="col-8"> */}
+        <div class="form-group">
+          <input type='text' value={this.state.item.description} onChange={ (e) => this.handleChange2(e) }></input>
         </div>
-        {/* <button onClick={this.handleClick}>OK</button> */}
-        <Button onClick={this.handleClick}>OK</Button>
-      </div>
-      </div>
+        <div class="form-group">
+          {/* <button onClick={this.handleClick}>OK</button> */}
+          <Button onClick={this.handleClick}>OK</Button>
+        </div>
+      </form>
     )
   }
 }
