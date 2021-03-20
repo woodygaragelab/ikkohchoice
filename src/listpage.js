@@ -23,7 +23,6 @@ class ListPage extends Component {
     this.createItem = this.createItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.onChange = this.onChange.bind(this);
-    // this.handleClick = this.handleClick.bind(this)
     
     this.fetchItems();
     this.state = {
@@ -64,20 +63,11 @@ class ListPage extends Component {
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
 
-  // handleClick(){
-  //   this.props.history.push('/detailpage')
-  // }
-
-  //editItem({id}) {
   editItem(item) {
-    const id = item.id;
-    const name = item.name;
     this.props.history.push({
       pathname: '/detailpage',
       state: { 
-        item: item,
-        id: id,
-        name: name
+        item: item
       }
     });
   }
@@ -100,8 +90,6 @@ class ListPage extends Component {
     return (
       <div style={{marginBottom: 30}}>
         <h1>I's choice</h1>
-        {/* <button onClick={this.handleClick}>画面遷移します</button> */}
-
         {
           this.state.items.map(item => (
             <Card>

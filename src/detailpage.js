@@ -17,11 +17,12 @@ class DetailPage extends Component{
     this.handleClick = this.handleClick.bind(this)
     this.createItem = this.createItem.bind(this);
     //this.editItem = this.editItem.bind(this);
-    //this.onChange = this.onChange.bind(this);
+    this.onChangeImage = this.onChangeImage.bind(this);
     
     this.state = {
-      id: "",
-      item: this.props.location.state.item      
+      //id: "",
+      item: this.props.location.state.item,
+      imageUrl: ""
     };
 
   }
@@ -46,13 +47,12 @@ class DetailPage extends Component{
       description: this.state.item.description,
       image: this.state.item.image
     };
-    // await API.graphql({ query: updateItemMutation, variables: { input: this.state.item } });
     await API.graphql({ query: updateItemMutation, variables: { input: newItem } });
-    if (this.state.item.image) {
-      const image = await Storage.get(this.state.item.image);
-      this.state.item.image = image;
-      this.setState({item: this.state.item});
-    }
+    // if (this.state.item.image) {
+    //   const image = await Storage.get(this.state.item.image);
+    //   this.state.item.image = image;
+    //   this.setState({item: this.state.item});
+    // }
   }
 
   handleChange1(e){
@@ -70,6 +70,18 @@ class DetailPage extends Component{
   handleClick() {
     this.updateItem();
     this.returnToListPage();
+  }
+
+  async onChangeImage(e) {
+    if (!e.target.files[0]) return
+    const file = e.target.files[0];
+    this.setState({item: { ...this.state.item, image: file.name }});
+    await Storage.put(file.name, file);
+    if (this.state.item.image) {
+      const imageUrl = await Storage.get(this.state.item.image);
+      this.setState({imageUrl: imageUrl});
+    }
+
   }
 
   returnToListPage() {
@@ -103,7 +115,16 @@ class DetailPage extends Component{
             placeholder="description"
             value={this.state.item.description}
           />
-
+        </div>
+        <div class="form-group">
+          <label for="itemimage">イメージ</label>
+          <p>image:{this.state.item.image}</p>
+          <p>imageUrl:{this.state.imageUrl}</p>
+          <img src={this.state.imageUrl} style={{width: 50,height:50}} alt=""/>
+          <input
+             type="file" class="form-control" id="itemimage"
+             onChange={this.onChangeImage}
+          />
         </div>
         <div class="form-group">
           <Button onClick={this.handleClick}>OK</Button>
