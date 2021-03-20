@@ -12,7 +12,7 @@ class DetailPage extends Component{
 
   constructor(props) {
     super(props);
-    //this.handleChange1 = this.handleChange1.bind(this)
+    this.handleChange1 = this.handleChange1.bind(this)
     //this.handleChange2 = this.handleChange2.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.createItem = this.createItem.bind(this);
@@ -38,11 +38,11 @@ class DetailPage extends Component{
     this.setState({formData: initialFormState});    
   }
 
-  //handleChange1(e){
-  //  this.setState({
-  //    text1: e.target.value
-  //  })
-  //}
+  handleChange1(e){
+   this.setState({
+     name: e.target.value
+    })
+  }
 
   //handleChange2(e){
   //  this.setState({
@@ -62,27 +62,20 @@ class DetailPage extends Component{
 
   render(){
     return(
-      // <div>
       // <div class="container-fluid">
       // <div class="row">
       <form>
-        {/* // <div class="col-8"> */}
         <div class="form-group">
-            {/* <label for="exampleInputEmail1">Email address</label> */}
             <label for="itemname">item name</label>
-            {/* <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> */}
-            <input type="text" class="form-control" id="itemname" placeholder="item name" value={this.state.item.name}></input>
+            <input type="text" class="form-control" id="itemname" placeholder="item name" value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input>
             {/* <input type='text' value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input> */}
-            {/* <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> */}
         </div>
-        {/* </div> */}
         {/* <div class="col-8"> */}
         <div class="form-group">
           <label for="itemdesc">Description</label>
           <input type='text' class="form-control" id="itemdesc" placeholder="description" value={this.state.item.description} onChange={ (e) => this.handleChange2(e) }></input>
         </div>
         <div class="form-group">
-          {/* <button onClick={this.handleClick}>OK</button> */}
           <Button onClick={this.handleClick}>OK</Button>
         </div>
       </form>
