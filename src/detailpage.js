@@ -20,7 +20,8 @@ class DetailPage extends Component{
     //this.setState({formData: this.state.formData});
     this.state = {
       id: "",
-      formData: initialFormState
+      //formData: initialFormState
+      item: this.props.location.state.item      
     };
 
   }
@@ -62,14 +63,19 @@ class DetailPage extends Component{
   render(){
     return(
       <div>
-        詳細ページ id:{this.props.location.state.id}
-        name:{this.props.location.state.name}
-        <br/>
-        item:{this.props.location.state.item.description}
-        {/* <input type='text' value={this.state.text1} onChange={ (e) => this.handleChange1(e) }></input>
-        <p>{this.state.text1}</p>
-        <input type='text' value={this.state.text2} onChange={ (e) => this.handleChange2(e) }></input>
-        <p>{this.state.text2}</p> */}
+        {/* 詳細ページ id:{this.props.location.state.id} */}
+        {/* <br/> */}
+        {/* name:{this.state.item.name} */}
+        {/* <br/> */}
+        {/* item:{this.props.location.state.item.description} */}
+        <div class="col-6">
+        <input type='text' value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input>
+        </div>
+        {/* <p>{this.state.item.name}</p> */}
+        <div class="col-6">
+        <input type='text' value={this.state.item.description} onChange={ (e) => this.handleChange2(e) }></input>
+        </div>
+        {/* <p>{this.state.item.description}</p> */}
         <button onClick={this.handleClick}>OK</button>
       </div>
     )
