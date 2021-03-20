@@ -62,12 +62,14 @@ class DetailPage extends Component{
 
   render(){
     return(
-      // <div class="container-fluid">
-      // <div class="row">
+      <div class="container-fluid">
+      {/* <div class="clearfix"> */}
+      {/* <div class="row"> */}
       <form>
+        {/* <div class="form-group float-left"> */}
         <div class="form-group">
             <label for="itemname">item name</label>
-            <input type="text" class="form-control" id="itemname" placeholder="item name" value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input>
+            <input type="text" class="form-control col-12" id="itemname" placeholder="item name" value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input>
             {/* <input type='text' value={this.state.item.name} onChange={ (e) => this.handleChange1(e) }></input> */}
         </div>
         {/* <div class="col-8"> */}
@@ -79,6 +81,7 @@ class DetailPage extends Component{
           <Button onClick={this.handleClick}>OK</Button>
         </div>
       </form>
+    </div>
     )
   }
 }

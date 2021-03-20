@@ -1,7 +1,8 @@
 import React from 'react';
 //import { useState, useEffect } from 'react';
 import { Component } from 'react';
-import './App.css';
+// import './App.css';
+ import './listpage.css';
 import { API, Storage } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listItems } from './graphql/queries';

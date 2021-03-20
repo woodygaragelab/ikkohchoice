@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  /* テキストは基本左寄せに変更*/
+  text-align: left;
 }
 
 .App-logo {
