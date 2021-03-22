@@ -45,7 +45,8 @@ class DetailPage extends Component{
       id: this.state.item.id,
       name: this.state.item.name,
       description: this.state.item.description,
-      imageFile: this.state.item.imageFile
+      imageFile: this.state.item.imageFile,
+      imageUrl: this.state.item.imageUrl
     };
     await API.graphql({ query: updateItemMutation, variables: { input: newItem } });
     // if (this.state.item.image) {
@@ -56,15 +57,17 @@ class DetailPage extends Component{
   }
 
   handleChange1(e){
-   this.setState({
-     name: e.target.value
-    })
+  //  this.setState({
+  //    name: e.target.value
+  //  })
+    this.setState({item: { ...this.state.item, name: e.target.value }});
   }
 
   handleChange2(e){
-   this.setState({
-     description: e.target.value
-   })
+  //  this.setState({
+  //    description: e.target.value
+  //  })
+   this.setState({item: { ...this.state.item, description: e.target.value }});
   }
 
   handleClick() {
