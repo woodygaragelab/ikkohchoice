@@ -36,9 +36,9 @@ class ListPage extends Component {
     const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
-      if (item.image) {
-        const image = await Storage.get(item.image);
-        item.image = image;
+      if (item.imageFile) {
+        const imageUrl = await Storage.get(item.imageFile);
+        item.imageUrl = imageUrl;
       }
       return item;
     }))
@@ -98,7 +98,7 @@ class ListPage extends Component {
               {/* <div className="container-fluid"> */}
               <div className="row">
                 <div className="col-4">
-                  <img src={item.image} style={{width: 50,height:50}} alt=""/>
+                  <img src={item.imageUrl} style={{width: 50,height:50}} alt=""/>
                 </div>
                 <div className="col-6">
                   <div>{item.name}</div>

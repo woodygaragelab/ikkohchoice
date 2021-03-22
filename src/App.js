@@ -32,9 +32,9 @@ class App extends React.Component {
     const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
-      if (item.image) {
-        const image = await Storage.get(item.image);
-        item.image = image;
+      if (item.imageFile) {
+        const imageUrl = await Storage.get(item.imageFile);
+        item.imageUrl = imageUrl;
       }
       return item;
     }))

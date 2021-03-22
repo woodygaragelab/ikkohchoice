@@ -45,7 +45,7 @@ class DetailPage extends Component{
       id: this.state.item.id,
       name: this.state.item.name,
       description: this.state.item.description,
-      image: this.state.item.image
+      imageFile: this.state.item.imageFile
     };
     await API.graphql({ query: updateItemMutation, variables: { input: newItem } });
     // if (this.state.item.image) {
@@ -75,10 +75,11 @@ class DetailPage extends Component{
   async onChangeImage(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
-    this.setState({item: { ...this.state.item, image: file.name }});
+    this.setState({item: { ...this.state.item, imageFile: file.name }});
     await Storage.put(file.name, file);
-    if (this.state.item.image) {
-      const imageUrl = await Storage.get(this.state.item.image);
+    if (this.state.item.imageFile) {
+      const imageUrl = await Storage.get(this.state.item.imageFile);
+      this.setState({item: {...this.state.item, imageUrl: imageUrl}});
       this.setState({imageUrl: imageUrl});
     }
 
@@ -118,9 +119,9 @@ class DetailPage extends Component{
         </div>
         <div class="form-group">
           <label for="itemimage">イメージ</label>
-          <p>image:{this.state.item.image}</p>
-          <p>imageUrl:{this.state.imageUrl}</p>
-          <img src={this.state.imageUrl} style={{width: 50,height:50}} alt=""/>
+          <p>imageFile:{this.state.item.imageFile}</p>
+          <p>imageUrl:{this.state.item.imageUrl}</p>
+          <img src={this.state.item.imageUrl} style={{width: 50,height:50}} alt=""/>
           <input
              type="file" class="form-control" id="itemimage"
              onChange={this.onChangeImage}
