@@ -106,7 +106,7 @@ class ListPage extends Component {
                 </div>
                 <div className="col-2">
                   <Button onClick={() =>  this.editItem(item)} variant="outline-primary">Edit</Button>
-                  <Button onClick={() =>  this.deleteItem(item)} variant="outline-primary">Delete</Button>
+                  <Button onClick={() =>  this.deleteItem(item)} variant="outline-primary">Del</Button>
                 </div>
               </div>              
               </div>              
