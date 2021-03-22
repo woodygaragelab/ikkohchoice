@@ -88,7 +88,7 @@ class ListPage extends Component {
 
   render() {
     return (
-      <div style={{marginBottom: 30}}  className="container-fluid"></div>>
+      <div style={{marginBottom: 30}}  className="container-fluid">
         <h1>I's choice</h1>
         {
           this.state.items.map(item => (
