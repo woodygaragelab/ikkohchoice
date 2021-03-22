@@ -88,14 +88,14 @@ class ListPage extends Component {
 
   render() {
     return (
-      <div style={{marginBottom: 30}}>
+      <div style={{marginBottom: 30}}  className="container-fluid"></div>>
         <h1>I's choice</h1>
         {
           this.state.items.map(item => (
             <Card>
             <Card.Body>
               <div key={item.id || item.name}>
-              <div className="container-fluid">
+              {/* <div className="container-fluid"> */}
               <div className="row">
                 <div className="col-4">
                   <img src={item.image} style={{width: 50,height:50}} alt=""/>
@@ -110,7 +110,7 @@ class ListPage extends Component {
                 </div>
               </div>              
               </div>              
-              </div>              
+              {/* </div>               */}
             </Card.Body>
             </Card>
           ))
