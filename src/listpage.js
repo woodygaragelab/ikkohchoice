@@ -124,7 +124,7 @@ class ListPage extends Component {
          <div className="col-3">
            <Button onClick={this.createItem} variant="outline-primary">ADD</Button>
          </div>
-         <div className="col-3">
+         {/* <div className="col-3">
            <input
              onChange={e => this.setState({formData: { ...this.state.formData, 'name': e.target.value }})}
              placeholder="name"
@@ -143,7 +143,7 @@ class ListPage extends Component {
              type="file"
              onChange={this.onChange}
            />
-         </div>
+         </div> */}
        </div>              
       </div> 
 
