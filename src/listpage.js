@@ -1,18 +1,18 @@
 import React from 'react';
 //import { useState, useEffect } from 'react';
 import { Component } from 'react';
-// import './App.css';
- import './listpage.css';
+import './listpage.css';
 import { API, Storage } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listItems } from './graphql/queries';
-import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
+//import { createItem as createItemMutation } from './graphql/mutations';
+import { deleteItem as deleteItemMutation } from './graphql/mutations';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { withRouter } from 'react-router-dom';
 
-const initialFormState = { name: '', description: '' }
+const initialFormState = { name: '', description: '', image: '', imageFile: '', imageUrl: '' }
 const initialItemState = [{ name: '', description: '' }]
 
 class ListPage extends Component {
@@ -26,6 +26,7 @@ class ListPage extends Component {
     
     this.fetchItems();
     this.state = {
+      user: "aa",
       items: initialItemState,
       formData: initialFormState
     };
@@ -46,15 +47,17 @@ class ListPage extends Component {
   }
 
   async createItem() {
-    if (!this.state.formData.name || !this.state.formData.description) return;
-    await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
-    if (this.state.formData.image) {
-      const image = await Storage.get(this.state.formData.image);
-      this.state.formData.image = image;
-      this.setState({formData: this.state.formData});
-    }
-    this.setState({items: [ ...this.state.items, this.state.formData ]});
-    this.setState({formData: initialFormState});    
+    // if (!this.state.formData.name || !this.state.formData.description) return;
+    // await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
+    // //const res = await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
+
+    this.props.history.push({
+      pathname: '/detailpage',
+      state: { 
+        item: {id:""}
+      }
+    });
+
   }
 
   async deleteItem({ id }) {
@@ -89,7 +92,7 @@ class ListPage extends Component {
   render() {
     return (
       <div style={{marginBottom: 30}}  className="container-fluid">
-        <h1>I's choice</h1>
+        <h1>I's choice {this.state.user}</h1>
         {
           this.state.items.map(item => (
             <Card>

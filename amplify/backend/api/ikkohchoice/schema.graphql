@@ -2,6 +2,7 @@ type Item @model {
   id: ID!
   name: String!
   description: String
+  image: String
   imageFile: String
   imageUrl: String
 }
