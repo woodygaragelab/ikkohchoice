@@ -60,10 +60,11 @@ class ListPage extends Component {
         item: {id:""}
       }
     });
-
   }
 
   async deleteItem({ id }) {
+    const newItemsArray = this.state.items.filter(item => item.id !== id);
+    this.setState({items: newItemsArray});
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
 
@@ -76,14 +77,6 @@ class ListPage extends Component {
     });
   }
 
-  // async onChange(e) {
-  //   if (!e.target.files[0]) return
-  //   const file = e.target.files[0];
-  //   this.setState({formData: { ...this.state.formData, image: file.name }});
-  //   await Storage.put(file.name, file);
-  //   this.fetchItems();
-  // }
-
   handleChange(e){
     this.setState({
       text: e.target.value
@@ -94,9 +87,7 @@ class ListPage extends Component {
 
     return (
       <div style={{marginBottom: 30}}  className="container-fluid">
-        <h1>I's choice {this.state.username}<i className="fas faEdit"></i></h1>
-        <div style={{ textAlign: "center", padding: 50 }}>
-        </div>
+        <h1>I's choice {this.state.username}</h1>
 
         {
           this.state.items.map(item => (
@@ -138,7 +129,6 @@ class ListPage extends Component {
              <FontAwesomeIcon icon={faPlusCircle} />
            </Button>
          </div>
-
        </div>              
       </div> 
 
