@@ -1,16 +1,17 @@
 import React from 'react';
-//import { useState, useEffect } from 'react';
 import { Component } from 'react';
 import './listpage.css';
 import { API, Storage } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+//import { Auth } from 'aws-amplify';
 import { listItems } from './graphql/queries';
-//import { createItem as createItemMutation } from './graphql/mutations';
 import { deleteItem as deleteItemMutation } from './graphql/mutations';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit,faTrash,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 const initialFormState = { name: '', description: '', image: '', imageFile: '', imageUrl: '' }
 const initialItemState = [{ name: '', description: '' }]
@@ -22,18 +23,24 @@ class ListPage extends Component {
     this.fetchItems = this.fetchItems.bind(this);
     this.createItem = this.createItem.bind(this);
     this.editItem = this.editItem.bind(this);
-    this.onChange = this.onChange.bind(this);
     
-    this.fetchItems();
     this.state = {
-      user: "aa",
+      isLoggedIn: false,
+      username: "",
       items: initialItemState,
       formData: initialFormState
     };
+    this.fetchItems();
 
   }
 
   async fetchItems() {
+    this.state = {items:initialItemState}
+    // const user = await Auth.currentUserInfo();
+    // if (user) {
+    //   this.setState({isLoggedIn: true});
+    //   this.setState({username: user.username});
+    // }
     const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
@@ -47,10 +54,6 @@ class ListPage extends Component {
   }
 
   async createItem() {
-    // if (!this.state.formData.name || !this.state.formData.description) return;
-    // await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
-    // //const res = await API.graphql({ query: createItemMutation, variables: { input: this.state.formData } });
-
     this.props.history.push({
       pathname: '/detailpage',
       state: { 
@@ -61,8 +64,6 @@ class ListPage extends Component {
   }
 
   async deleteItem({ id }) {
-    const newItemsArray = this.state.items.filter(item => item.id !== id);
-    this.setState({items: newItemsArray});
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
 
@@ -75,13 +76,13 @@ class ListPage extends Component {
     });
   }
 
-  async onChange(e) {
-    if (!e.target.files[0]) return
-    const file = e.target.files[0];
-    this.setState({formData: { ...this.state.formData, image: file.name }});
-    await Storage.put(file.name, file);
-    this.fetchItems();
-  }
+  // async onChange(e) {
+  //   if (!e.target.files[0]) return
+  //   const file = e.target.files[0];
+  //   this.setState({formData: { ...this.state.formData, image: file.name }});
+  //   await Storage.put(file.name, file);
+  //   this.fetchItems();
+  // }
 
   handleChange(e){
     this.setState({
@@ -90,14 +91,18 @@ class ListPage extends Component {
   }
 
   render() {
+
     return (
       <div style={{marginBottom: 30}}  className="container-fluid">
-        <h1>I's choice {this.state.user}</h1>
+        <h1>I's choice {this.state.username}<i className="fas faEdit"></i></h1>
+        <div style={{ textAlign: "center", padding: 50 }}>
+        </div>
+
         {
           this.state.items.map(item => (
+            <div key={item.id || item.name}>
             <Card>
             <Card.Body>
-              <div key={item.id || item.name}>
               {/* <div className="container-fluid"> */}
               <div className="row">
                 <div className="col-4">
@@ -107,43 +112,33 @@ class ListPage extends Component {
                   <div>{item.name}</div>
                   <div>{item.description}</div>
                 </div>
-                <div className="col-2">
-                  <Button onClick={() =>  this.editItem(item)} variant="outline-primary">Edit</Button>
-                  <Button onClick={() =>  this.deleteItem(item)} variant="outline-primary">Del</Button>
-                </div>
-              </div>              
+                {/* {this.state.username && */}
+                  <div className="col-2">
+                    <Button 
+                      onClick={() =>  this.editItem(item)} variant="outline-primary">
+                      <FontAwesomeIcon icon={faEdit} />
+                    </Button>
+                    <Button onClick={() =>  this.deleteItem(item)} variant="outline-primary">
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                  </div>
+                {/* } */}
               </div>              
               {/* </div>               */}
             </Card.Body>
             </Card>
+            </div>              
           ))
         }
 
       <div className="container-fluid">
        <div className="row">
          <div className="col-3">
-           <Button onClick={this.createItem} variant="outline-primary">ADD</Button>
+           <Button onClick={this.createItem} variant="outline-primary">
+             <FontAwesomeIcon icon={faPlusCircle} />
+           </Button>
          </div>
-         {/* <div className="col-3">
-           <input
-             onChange={e => this.setState({formData: { ...this.state.formData, 'name': e.target.value }})}
-             placeholder="name"
-             value={this.state.formData.name}
-           />
-         </div>
-         <div className="col-3">
-           <input
-             onChange={e => this.setState({formData: { ...this.state.formData, 'description': e.target.value }})}
-             placeholder="description"
-             value={this.state.formData.description}
-           />
-         </div>
-         <div className="col-3">
-           <input
-             type="file"
-             onChange={this.onChange}
-           />
-         </div> */}
+
        </div>              
       </div> 
 

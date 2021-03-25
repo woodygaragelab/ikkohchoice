@@ -65,6 +65,10 @@ class DetailPage extends Component{
     this.returnToListPage();
   }
 
+            
+
+
+
   async onChangeImage(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
@@ -92,38 +96,38 @@ class DetailPage extends Component{
 
   render(){
     return(
-      <div class="container-fluid">
+      <div className="container-fluid">
       <form>
-        <div class="form-group">
+        <div className="form-group">
             <label for="itemname">タイトル</label>
             <input
-            type='text' class="form-control" id="itemname" 
-            onChange={e => this.setState({item: { ...this.state.item, 'name': e.target.value }})}
+            type='text' className="form-control" id="itemname" 
+            onChange={this.handleChange1}
             placeholder="item name"
             value={this.state.item.name}
           />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label for="itemdesc">説明</label>
           <input
-            type='text' class="form-control" id="itemdesc" 
+            type='text' className="form-control" id="itemdesc" 
             onChange={e => this.setState({item: { ...this.state.item, 'description': e.target.value }})}
             placeholder="description"
             value={this.state.item.description}
           />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label for="itemimage">イメージ</label>
           <p>id:{this.state.item.id}</p>
           <p>imageFile:{this.state.item.imageFile}</p>
           <p>imageUrl:{this.state.item.imageUrl}</p>
           <img src={this.state.item.imageUrl} style={{width: 50,height:50}} alt=""/>
           <input
-             type="file" class="form-control" id="itemimage"
+             type="file" className="form-control" id="itemimage"
              onChange={this.onChangeImage}
           />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <Button onClick={this.handleClick}>OK</Button>
         </div>
       </form>

@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import { API, Storage } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+//import { Auth } from 'aws-amplify';
+
 import { listItems } from './graphql/queries';
 import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,14 +24,21 @@ class App extends React.Component {
     this.editItem = this.editItem.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleClick = this.handleClick.bind(this)
+    // this.logIn();
     this.state = {
       items: initialItemState,
       formData: initialFormState
     };
   }
 
+  // async logIn() {
+  //   const userId = "woody";
+  //   const password = "woody2021";
+  //   const userData = await Auth.signIn(userId, password)
+  // }
+
   async fetchItems() {
-    const apiData = await API.graphql({ query: listItems });
+      const apiData = await API.graphql({ query: listItems });
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
       if (item.imageFile) {
@@ -83,8 +92,11 @@ class App extends React.Component {
 
   render(){
     return (
-      <div className="App">
+      // <head>
+      //   <script src="https://kit.fontawesome.com/a87609860b.js" crossOrigin="anonymous"></script>
+      // </head>
 
+      <div className="App">
         <div>
         <Router>
         <Switch>
@@ -96,6 +108,7 @@ class App extends React.Component {
       
       <AmplifySignOut />
     </div>
+
   )};
 }
 
