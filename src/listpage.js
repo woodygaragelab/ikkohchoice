@@ -11,8 +11,9 @@ import Card from 'react-bootstrap/Card';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit,faTrash,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAmazon } from "@fortawesome/free-brands-svg-icons";
 
-const initialItemState = [{ name: '', description: '' }]
+const initialItemState = [{ name: 'initial', description: 'item state' }]
 
 class ListPage extends Component {
 
@@ -21,7 +22,7 @@ class ListPage extends Component {
     this.fetchItemsFromAPI = this.fetchItemsFromAPI.bind(this);
     this.createItem = this.createItem.bind(this);
     this.editItem = this.editItem.bind(this);
-    
+    this.login = this.login.bind(this);
     this.state = {
       isLoggedIn: false,
       username: "",
@@ -50,8 +51,6 @@ class ListPage extends Component {
           //const bucket   = "https://ikkohchoice232927-staging.s3-ap-northeast-1.amazonaws.com/public/";
           //const imageurl = bucket + item.imagefile;
           item.imageurl = imageurl;
-          // const newItems = [ ...this.state.items, item ]; //itemごとにstateに追加する
-          // this.setState({items: newItems});
           this.setState({items: apiData});   //imageurlを取得ごとに非同期でセットする。apiDataのmap中の処理でもOK？
           return item;    
         }
@@ -89,6 +88,14 @@ class ListPage extends Component {
     });
   }
 
+  orderItem(item) {
+    this.props.history.push({
+      pathname: '/detailpage',
+      state: { item: item }
+    });
+  }
+
+  //隠しボタンで起動するlogin
   login() {
     this.setState({isLoggedIn: !this.state.isLoggedIn});
   }
@@ -97,7 +104,7 @@ class ListPage extends Component {
 
     return (
       <div style={{marginBottom: 30}}  className="container-fluid">
-        <h1>I's choice {this.state.username}</h1>
+        <h1>Ikkohのおすすめ書籍{this.state.username}</h1>
 
         {
           this.state.items.map(item => (
@@ -108,9 +115,14 @@ class ListPage extends Component {
                 <div className="col-4">
                   <img src={item.imageurl} style={{width: 50,height:50}} alt=""/>
                 </div>
-                <div className="col-6">
+                <div className="col-5">
                   <div>{item.name}</div>
                   <div>{item.description}</div>
+                </div>
+                <div className="col-1">
+                  <a class="btn btn-primary" href={item.amazonurl} role="button">
+                      <FontAwesomeIcon icon={faAmazon} />
+                  </a>
                 </div>
                 {this.state.isLoggedIn &&
                   <div className="col-2">
@@ -123,7 +135,7 @@ class ListPage extends Component {
                     </Button>
                   </div>
                 } 
-              </div>              
+                </div>              
               {/* </div>               */}
             </Card.Body>
             </Card>
@@ -131,17 +143,16 @@ class ListPage extends Component {
           ))
         }
 
-      <div className="container-fluid">
+      <div style={{marginTop: 100}}  className="container-fluid">
        <div className="row">
-         <div className="col-3">
+         <div className="col-10"/>
+         <div className="col-2">
+         {this.state.isLoggedIn &&
            <Button onClick={this.createItem} variant="outline-primary">
              <FontAwesomeIcon icon={faPlusCircle} />
            </Button>
-         </div>
-         <div className="col-3">
-           <Button onClick={this.login} variant="outline-primary">
-             <FontAwesomeIcon icon={faPlusCircle} />
-           </Button>
+         }
+           <Button onClick={this.login} className="btn btn-light"/>            
          </div>
        </div>              
       </div> 

@@ -36,6 +36,7 @@ class DetailPage extends Component{
                         "ID":now,
                         "name":this.state.item.name,
                         "description":this.state.item.description,
+                        "amazonurl":this.state.item.amazonurl,
                         "imagefile":this.state.item.imagefile,
                         "imageurl":this.state.item.imageurl
                       });
@@ -54,6 +55,7 @@ class DetailPage extends Component{
                         "ID":this.state.item.ID,
                         "name":this.state.item.name,
                         "description":this.state.item.description,
+                        "amazonurl":this.state.item.amazonurl,
                         "imagefile":this.state.item.imagefile,
                         "imageurl":this.state.item.imageurl
                       });
@@ -91,7 +93,7 @@ class DetailPage extends Component{
     const file = e.target.files[0];
     this.setState({item: { ...this.state.item, imagefile: file.name }});
     // imageFileをStorage(s3 service)に保存する
-    await Storage.put(file.name, file,{ level: 'protected' }); // 作成者以外読み取り権限
+    await Storage.put(file.name, file,{ level: 'public' }); // publicにしないとStorage.getできない
     if (this.state.item.imagefile) {
       // imageFile名からimageUrlを取得する
       const imageurl = await Storage.get(this.state.item.imagefile);
@@ -131,6 +133,15 @@ class DetailPage extends Component{
             onChange={e => this.setState({item: { ...this.state.item, 'description': e.target.value }})}
             placeholder="description"
             value={this.state.item.description}
+          />
+        </div>
+        <div className="form-group">
+          <label for="amazonurl">amazon url</label>
+          <input
+            type='text' className="form-control" id="amazonurl" 
+            onChange={e => this.setState({item: { ...this.state.item, 'amazonurl': e.target.value }})}
+            placeholder="amazonurl"
+            value={this.state.item.amazonurl}
           />
         </div>
         <div className="form-group">

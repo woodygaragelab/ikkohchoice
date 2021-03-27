@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+//import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 //import { Auth } from 'aws-amplify';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,7 +27,7 @@ class App extends React.Component {
         </Router>
         </div>
       
-      <AmplifySignOut />
+      {/* <AmplifySignOut /> */}
     </div>
 
   )};
