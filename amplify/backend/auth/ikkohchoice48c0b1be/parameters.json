@@ -1,6 +1,6 @@
 {
     "identityPoolName": "ikkohchoice48c0b1be_identitypool_48c0b1be",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "ikkohc48c0b1be",
     "userPoolName": "ikkohchoice48c0b1be_userpool_48c0b1be",
     "autoVerifiedAttributes": [

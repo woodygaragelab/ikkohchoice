@@ -1,7 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
 import './listpage.css';
-//import { API, Storage } from 'aws-amplify';
+import { Storage } from 'aws-amplify';
+//import { API } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 //import { Auth } from 'aws-amplify';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,7 +28,6 @@ class ListPage extends Component {
       items: initialItemState
     };
     this.fetchItemsFromAPI();
-
   }
 
   async fetchItemsFromAPI() {
@@ -38,8 +38,26 @@ class ListPage extends Component {
     var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
     fetch("https://yxckp7iyk4.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
     .then(response => response.text())
-    .then((response) => {
-      this.setState({items: JSON.parse(response)});
+    .then(async(response) => {
+      //this.setState({items: []});
+      const apiData = JSON.parse(response);
+      //await Promise.all(apiData.map(async item => {
+      apiData.map(async item => {
+        if (item.imagefile) {
+          // imageFile名からimageUrlを取得する
+          let dataExpireSeconds = (3 * 60);
+          const imageurl = await Storage.get(item.imagefile, { expires: dataExpireSeconds });
+          //const bucket   = "https://ikkohchoice232927-staging.s3-ap-northeast-1.amazonaws.com/public/";
+          //const imageurl = bucket + item.imagefile;
+          item.imageurl = imageurl;
+          // const newItems = [ ...this.state.items, item ]; //itemごとにstateに追加する
+          // this.setState({items: newItems});
+          this.setState({items: apiData});   //imageurlを取得ごとに非同期でセットする。apiDataのmap中の処理でもOK？
+          return item;    
+        }
+        return item;    
+      })
+      //this.setState({items: apiData});      //ここでsetStateするとimageurlのセット前に実行される
     })
     .catch(error => console.log('error', error));
     //alert(response);

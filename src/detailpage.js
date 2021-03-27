@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-//import { API } from 'aws-amplify';
 import { Storage } from 'aws-amplify';
-//import { createItem as createItemMutation } from './graphql/mutations';
-//import { updateItem as updateItemMutation } from './graphql/mutations';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 
@@ -26,17 +23,6 @@ class DetailPage extends Component{
 
   }
 
-  // async createItem() {
-  //   if (!this.state.item.name || !this.state.item.description) return;
-  //   const newItem = {
-  //     name: this.state.item.name,
-  //     description: this.state.item.description,
-  //     imageFile: this.state.item.imageFile,
-  //     imageUrl: this.state.item.imageUrl
-  //   };
-  //   await API.graphql({ query: createItemMutation, variables: { input: newItem } });
-  // }
-  
   async createItemFromAPI() {
     if (!this.state.item.name || !this.state.item.description) return;
 
@@ -53,36 +39,14 @@ class DetailPage extends Component{
                         "imagefile":this.state.item.imagefile,
                         "imageurl":this.state.item.imageurl
                       });
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
+    var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
     fetch("https://yxckp7iyk4.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
     // .then(response => response.text())
-    // .then((response) => {
-    //   alert(response);
-    // })
     .catch(error => console.log('error', error));
-
   }
-
-  // async updateItem() {
-  //   if (!this.state.item.name || !this.state.item.description) return;
-  //   const newItem = {
-  //     ID: this.state.item.ID,
-  //     name: this.state.item.name,
-  //     description: this.state.item.description,
-  //     imagefile: this.state.item.imagefile,
-  //     imageurl: this.state.item.imageurl
-  //   };
-  //   await API.graphql({ query: updateItemMutation, variables: { input: newItem } });
-  // }
 
   async updateItemFromAPI() {
     if (!this.state.item.name || !this.state.item.description) return;
-
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({"function":"add",
@@ -93,17 +57,12 @@ class DetailPage extends Component{
                         "imagefile":this.state.item.imagefile,
                         "imageurl":this.state.item.imageurl
                       });
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
+    var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
     fetch("https://yxckp7iyk4.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
-    .then(response => response.text())
-    .then((response) => {
-      alert(response);
-    })
+    // .then(response => response.text())
+    // .then((response) => {
+    //   alert(response);
+    // })
     .catch(error => console.log('error', error));
 
   }
@@ -119,7 +78,6 @@ class DetailPage extends Component{
   handleClick() {
     // item.idがnullの時は新規作成、listpageから渡されてきたときは更新
     if (this.state.item.ID === "") {
-      //this.createItem();
       this.createItemFromAPI();
     }
     else {
@@ -133,7 +91,7 @@ class DetailPage extends Component{
     const file = e.target.files[0];
     this.setState({item: { ...this.state.item, imagefile: file.name }});
     // imageFileをStorage(s3 service)に保存する
-    await Storage.put(file.name, file);
+    await Storage.put(file.name, file,{ level: 'protected' }); // 作成者以外読み取り権限
     if (this.state.item.imagefile) {
       // imageFile名からimageUrlを取得する
       const imageurl = await Storage.get(this.state.item.imagefile);
@@ -177,9 +135,9 @@ class DetailPage extends Component{
         </div>
         <div className="form-group">
           <label for="itemimage">イメージ</label>
-          <p>id:{this.state.item.ID}</p>
-          <p>imageFile:{this.state.item.imagefile}</p>
-          <p>imageUrl:{this.state.item.imageurl}</p>
+          {/* <p>id:{this.state.item.ID}</p> */}
+          {/* <p>imageFile:{this.state.item.imagefile}</p> */}
+          {/* <p>imageUrl:{this.state.item.imageurl}</p> */}
           <img src={this.state.item.imageurl} style={{width: 50,height:50}} alt=""/>
           <input
              type="file" className="form-control" id="itemimage"
