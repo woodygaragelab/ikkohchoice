@@ -112,7 +112,7 @@ class ListPage extends Component {
                   <div>{item.name}</div>
                   <div>{item.description}</div>
                 </div>
-                {/* {this.state.username && */}
+                {this.state.isLoggedIn &&
                   <div className="col-2">
                     <Button 
                       onClick={() =>  this.editItem(item)} variant="outline-primary">
@@ -122,7 +122,7 @@ class ListPage extends Component {
                       <FontAwesomeIcon icon={faTrash} />
                     </Button>
                   </div>
-                {/* } */}
+                } 
               </div>              
               {/* </div>               */}
             </Card.Body>
