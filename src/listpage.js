@@ -89,6 +89,10 @@ class ListPage extends Component {
     });
   }
 
+  login() {
+    this.setState({isLoggedIn: !this.state.isLoggedIn});
+  }
+
   render() {
 
     return (
@@ -131,6 +135,11 @@ class ListPage extends Component {
        <div className="row">
          <div className="col-3">
            <Button onClick={this.createItem} variant="outline-primary">
+             <FontAwesomeIcon icon={faPlusCircle} />
+           </Button>
+         </div>
+         <div className="col-3">
+           <Button onClick={this.login} variant="outline-primary">
              <FontAwesomeIcon icon={faPlusCircle} />
            </Button>
          </div>
