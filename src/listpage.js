@@ -1,13 +1,14 @@
 import React from 'react';
 import { Component } from 'react';
+import './App.css';
 import './listpage.css';
 import { Storage } from 'aws-amplify';
 //import { API } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 //import { Auth } from 'aws-amplify';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+//import Button from 'react-bootstrap/Button';
+//import Card from 'react-bootstrap/Card';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit,faTrash,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
@@ -103,57 +104,57 @@ class ListPage extends Component {
   render() {
 
     return (
-      <div style={{marginBottom: 30}}  className="container-fluid">
+      <div style={{marginBottom: 30}}  className="container-fluid bg-color-1">
         <h1>Ikkohのおすすめ書籍{this.state.username}</h1>
 
         {
           this.state.items.map(item => (
-            <div key={item.id || item.name}>
-            <Card>
-            <Card.Body>
+            <div className="card" key={item.id || item.name}>
+            {/* <Card> */}
+            {/* <Card.Body> */}
+            <div className="card-body bg-color-2">
               <div className="row">
-                <div className="col-4">
-                  <img src={item.imageurl} style={{width: 50,height:50}} alt=""/>
+                <div className="col-2">
+                  <img src={item.imageurl} style={{width: 100,height:100}} alt=""/>
                 </div>
-                <div className="col-5">
-                  <div>{item.name}</div>
+                <div className="col-6">
+                  <div><h4>{item.name}</h4></div>
                   <div>{item.description}</div>
                 </div>
-                <div className="col-1">
-                  <a class="btn btn-primary" href={item.amazonurl} role="button">
+                <div className="col-2">
+                  <a className="btn btn-primary" href={item.amazonurl} role="button">
                       <FontAwesomeIcon icon={faAmazon} />
                   </a>
                 </div>
                 {this.state.isLoggedIn &&
                   <div className="col-2">
-                    <Button 
-                      onClick={() =>  this.editItem(item)} variant="outline-primary">
+                    <button type="button" onClick={() => this.editItem(item)} className="btn btn-primary">
                       <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button onClick={() =>  this.deleteItemFromAPI(item)} variant="outline-primary">
+                    </button>
+                    <button type="button" onClick={() =>  this.deleteItemFromAPI(item)} className="btn btn-primary">
                       <FontAwesomeIcon icon={faTrash} />
-                    </Button>
+                    </button>
                   </div>
                 } 
-                </div>              
-              {/* </div>               */}
-            </Card.Body>
-            </Card>
+              </div>              
+            </div>              
+            {/* </Card.Body> */}
+            {/* </Card> */}
             </div>              
           ))
         }
 
       <div style={{marginTop: 100}}  className="container-fluid">
        <div className="row">
-         <div className="col-10"/>
-         <div className="col-2">
-         {this.state.isLoggedIn &&
-           <Button onClick={this.createItem} variant="outline-primary">
-             <FontAwesomeIcon icon={faPlusCircle} />
-           </Button>
-         }
-           <Button onClick={this.login} className="btn btn-light"/>            
-         </div>
+        <div className="col-10"/>
+        <div className="col-2">
+          {this.state.isLoggedIn &&
+            <button type="button" onClick={this.createItem} className="btn btn-primary">
+              <FontAwesomeIcon icon={faPlusCircle} />
+            </button>
+          }
+          <button type="button" onClick={this.login} className="btn btn-secondary"/>
+        </div>
        </div>              
       </div> 
 
