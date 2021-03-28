@@ -118,8 +118,8 @@ class DetailPage extends Component{
       <div className="container-fluid">
       <form>
         <div className="form-group">
-            <label for="itemname">タイトル</label>
-            <input
+          <label for="itemname">タイトル</label>
+          <input
             type='text' className="form-control" id="itemname" 
             onChange={this.handleChange1}
             placeholder="item name"
@@ -146,8 +146,6 @@ class DetailPage extends Component{
         </div>
         <div className="form-group">
           <label for="itemimage">イメージ</label>
-          {/* <p>id:{this.state.item.ID}</p> */}
-          {/* <p>imageFile:{this.state.item.imagefile}</p> */}
           {/* <p>imageUrl:{this.state.item.imageurl}</p> */}
           <img src={this.state.item.imageurl} style={{width: 50,height:50}} alt=""/>
           <input

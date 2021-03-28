@@ -13,10 +13,6 @@ class App extends React.Component {
 
   render(){
     return (
-      // <head>
-      //   <script src="https://kit.fontawesome.com/a87609860b.js" crossOrigin="anonymous"></script>
-      // </head>
-
       <div className="App">
         <div>
         <Router>
@@ -25,8 +21,7 @@ class App extends React.Component {
             <Route exact={true} path='/detailpage' component={DetailPage}/>
         </Switch>
         </Router>
-        </div>
-      
+        </div>      
       {/* <AmplifySignOut /> */}
     </div>
 

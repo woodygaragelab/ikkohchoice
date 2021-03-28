@@ -7,8 +7,6 @@ import { Storage } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 //import { Auth } from 'aws-amplify';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import Button from 'react-bootstrap/Button';
-//import Card from 'react-bootstrap/Card';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit,faTrash,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
@@ -41,7 +39,6 @@ class ListPage extends Component {
     fetch("https://yxckp7iyk4.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
     .then(response => response.text())
     .then(async(response) => {
-      //this.setState({items: []});
       const apiData = JSON.parse(response);
       //await Promise.all(apiData.map(async item => {
       apiData.map(async item => {
@@ -57,7 +54,6 @@ class ListPage extends Component {
         }
         return item;    
       })
-      //this.setState({items: apiData});      //ここでsetStateするとimageurlのセット前に実行される
     })
     .catch(error => console.log('error', error));
     //alert(response);
@@ -110,53 +106,49 @@ class ListPage extends Component {
         {
           this.state.items.map(item => (
             <div className="card" key={item.id || item.name}>
-            {/* <Card> */}
-            {/* <Card.Body> */}
-            <div className="card-body bg-color-2">
-              <div className="row">
-                <div className="col-2">
-                  <img src={item.imageurl} style={{width: 100,height:100}} alt=""/>
-                </div>
-                <div className="col-6">
-                  <div><h4>{item.name}</h4></div>
-                  <div>{item.description}</div>
-                </div>
-                <div className="col-2">
-                  <a className="btn btn-primary" href={item.amazonurl} role="button">
-                      <FontAwesomeIcon icon={faAmazon} />
-                  </a>
-                </div>
-                {this.state.isLoggedIn &&
+              <div className="card-body bg-color-2">
+                <div className="row">
                   <div className="col-2">
-                    <button type="button" onClick={() => this.editItem(item)} className="btn btn-primary">
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                    <button type="button" onClick={() =>  this.deleteItemFromAPI(item)} className="btn btn-primary">
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
+                    <img src={item.imageurl} style={{width: 100,height:100}} alt=""/>
                   </div>
-                } 
+                  <div className="col-6">
+                    <div><h4>{item.name}</h4></div>
+                    <div>{item.description}</div>
+                  </div>
+                  <div className="col-2">
+                    <a className="btn btn-primary" href={item.amazonurl} role="button">
+                        <FontAwesomeIcon icon={faAmazon} />
+                    </a>
+                  </div>
+                  {this.state.isLoggedIn &&
+                    <div className="col-2">
+                      <button type="button" onClick={() => this.editItem(item)} className="btn btn-primary">
+                        <FontAwesomeIcon icon={faEdit} />
+                      </button>
+                      <button type="button" onClick={() =>  this.deleteItemFromAPI(item)} className="btn btn-primary">
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    </div>
+                  } 
+                </div>              
               </div>              
-            </div>              
-            {/* </Card.Body> */}
-            {/* </Card> */}
             </div>              
           ))
         }
 
-      <div style={{marginTop: 100}}  className="container-fluid">
-       <div className="row">
-        <div className="col-10"/>
-        <div className="col-2">
-          {this.state.isLoggedIn &&
-            <button type="button" onClick={this.createItem} className="btn btn-primary">
-              <FontAwesomeIcon icon={faPlusCircle} />
-            </button>
-          }
-          <button type="button" onClick={this.login} className="btn btn-secondary"/>
-        </div>
-       </div>              
-      </div> 
+        <div style={{marginTop: 100}}  className="container-fluid">
+        <div className="row">
+          <div className="col-10"/>
+          <div className="col-2">
+            {this.state.isLoggedIn &&
+              <button type="button" onClick={this.createItem} className="btn btn-primary">
+                <FontAwesomeIcon icon={faPlusCircle} />
+              </button>
+            }
+            <button type="button" onClick={this.login} className="btn btn-secondary"/>
+          </div>
+        </div>              
+        </div> 
 
       </div>
     );
