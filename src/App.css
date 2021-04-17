@@ -1,47 +1,8 @@
-/* .App {
-  text-align: left;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
- */
 .bg-color-1 {
   background-color: #8392c9;
 }
 .bg-color-2 {
-  background-color: #9cb6db;
+  background-color: #ffffff;
 }
 .bg-color-3 {
   background-color: #aebed5;
@@ -57,8 +18,8 @@
   justify-content: space-evenly;
 }
 /* header backgtound / foreground */
-.k2310BgH { background: #8392c9; }
-.k2310FgH { background: #667bca;}
+.k2310BgH { background: #6b7ec5; }
+.k2310FgH { background: #ffffff; color:black}
 
 .kzImage {
   width: 100px;            /* 親要素(div)(表示領域)の50%幅 */

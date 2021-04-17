@@ -100,13 +100,13 @@ class ListPageBook extends Component {
   render() {
 
     return (
-      <div className="mt-5 container-fluid k2310BgH">
+      <div className="mt-5 container-fluid bg-color-1">
         <header className="fixed-top">
-          <div className="k2310BgH"><h1>Ikkohのおすすめ{this.state.username}</h1></div>
+          <div className="bg-color-1"><h1>Ikkohのおすすめ{this.state.username}</h1></div>
         </header>
         <div className="k2Header k2310BgH">
           <div onClick={this.selectBook} className="col-6 k2310FgH">Book</div>
-          <div onClick={this.selectFood} className="col-6">Food</div>
+          <div onClick={this.selectFood} className="col-6 k2310BgH">Food</div>
         </div>
 
         {
@@ -115,7 +115,7 @@ class ListPageBook extends Component {
               <div className="card-body bg-color-2">
                 <div className="row">
                   <div className="col-2">
-                    <img src={item.imageurl} style={{width: 100,height:100}} alt=""/>
+                    <img src={item.imageurl} className="kzImage" alt=""/> 
                   </div>
                   <div className="col-6">
                     <div><h4>{item.name}</h4></div>
