@@ -1,6 +1,4 @@
-.App {
-  /* text-align: center; */
-  /* テキストは基本左寄せに変更*/
+/* .App {
   text-align: left;
 }
 
@@ -38,7 +36,7 @@
     transform: rotate(360deg);
   }
 }
-
+ */
 .bg-color-1 {
   background-color: #8392c9;
 }
@@ -48,3 +46,92 @@
 .bg-color-3 {
   background-color: #aebed5;
 }
+
+.k2Header {
+  color: #ffffff;
+  display: flex;
+  width: 100%;
+  font-family: Kanit, sans-serif;
+  font-size: 1.2em;
+  align-items: center;
+  justify-content: space-evenly;
+}
+/* header backgtound / foreground */
+.k2310BgH { background: #8392c9; }
+.k2310FgH { background: #667bca;}
+
+.kzImage {
+  width: 100px;            /* 親要素(div)(表示領域)の50%幅 */
+  height: auto;          /* 縦横比(アスペクト比)は元イメージに合わせる */
+}
+/* border-radius: 50%;    丸く切り取る */
+
+
+
+/* .App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+} */
+
+
+/* h1 {
+    text-align: center;
+}
+h4 {
+    font-family: Kanit, sans-serif;
+    font-size: 2.0em;
+}
+h5 {
+    font-family: Kanit, sans-serif;
+    font-size: 0.3em;
+}
+.k2Font1 {
+  font-family: Kanit, sans-serif;
+  font-size: 1.2em;
+}
+.k2Font2 {
+  font-family: Kanit, sans-serif;
+  font-size: 1.0em;
+}
+.k2Font3 {
+  font-family: Kanit, sans-serif;
+  font-size: 0.5em;
+}   */
+
+/* .k2Header {
+  color: #ffffff;
+  display: flex;
+  width: 100%;
+  font-family: Kanit, sans-serif;
+  font-size: 1.2em;
+  align-items: center;
+  justify-content: space-evenly;
+} */
+
+/* .k2Footer {
+  background: #BDAFC9;
+  color: #ffffff;
+  display: flex;
+  width: 100%;
+  font-family: Kanit, sans-serif;
+  font-size: 1.5em;
+  align-items: center;
+  justify-content: space-evenly;
+} */
+
+/* .k2310BgM5 { background: #3ffc2e; }
+.k2310BgM6 { background: #aa89b9; }
+.k2310BgM7 { background: #73abff; }
+.k2310BgM8 { background: #00db1e; }
+.k2310FgM5 { background: #14db02; }
+.k2310FgM6 { background: #743891; }
+.k2310FgM7 { background: #3e8bff; }
+.k2310FgM8 { background: #00a116; } */
+
+

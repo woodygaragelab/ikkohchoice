@@ -14,7 +14,7 @@ import { faAmazon } from "@fortawesome/free-brands-svg-icons";
 
 const initialItemState = [{ name: 'initial', description: 'item state' }]
 
-class ListPage extends Component {
+class ListPageBook extends Component {
 
   constructor(props){
     super(props);
@@ -22,19 +22,22 @@ class ListPage extends Component {
     this.createItem = this.createItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.login = this.login.bind(this);
+    this.selectBook = this.selectBook.bind(this);
+    this.selectFood = this.selectFood.bind(this);
     this.state = {
       isLoggedIn: false,
       username: "",
-      items: initialItemState
+      items: initialItemState,
+      category: "book"
     };
-    this.fetchItemsFromAPI();
+    this.fetchItemsFromAPI(this.state.category);
   }
 
-  async fetchItemsFromAPI() {
-    this.state = {items:initialItemState}
+  async fetchItemsFromAPI(cat) {
+      this.state = {items:initialItemState}
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify({"function":"list","category":"food"});
+    var raw = JSON.stringify({"function":"list","category":cat});
     var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
     fetch("https://yxckp7iyk4.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
     .then(response => response.text())
@@ -85,23 +88,26 @@ class ListPage extends Component {
     });
   }
 
-  orderItem(item) {
-    this.props.history.push({
-      pathname: '/detailpage',
-      state: { item: item }
-    });
-  }
-
   //隠しボタンで起動するlogin
   login() {
     this.setState({isLoggedIn: !this.state.isLoggedIn});
   }
 
+
+  selectBook() {  this.props.history.push({ pathname: '/listpagebook' });  }
+  selectFood() {  this.props.history.push({ pathname: '/listpagefood' });  }
+
   render() {
 
     return (
-      <div style={{marginBottom: 30}}  className="container-fluid bg-color-1">
-        <h1>Ikkohのおすすめ書籍{this.state.username}</h1>
+      <div className="mt-5 container-fluid k2310BgH">
+        <header className="fixed-top">
+          <div className="k2310BgH"><h1>Ikkohのおすすめ{this.state.username}</h1></div>
+        </header>
+        <div className="k2Header k2310BgH">
+          <div onClick={this.selectBook} className="col-6 k2310FgH">Book</div>
+          <div onClick={this.selectFood} className="col-6">Food</div>
+        </div>
 
         {
           this.state.items.map(item => (
@@ -155,5 +161,5 @@ class ListPage extends Component {
   }
 }
 
-export default withRouter(ListPage)  
+export default withRouter(ListPageBook)  
       

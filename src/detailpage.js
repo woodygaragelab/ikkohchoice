@@ -32,7 +32,7 @@ class DetailPage extends Component{
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({"function":"add",
-                        "category":"food",
+                        "category":this.state.item.category,
                         "ID":now,
                         "name":this.state.item.name,
                         "description":this.state.item.description,
@@ -51,7 +51,7 @@ class DetailPage extends Component{
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({"function":"add",
-                        "category":"food",
+                        "category":this.state.item.category,
                         "ID":this.state.item.ID,
                         "name":this.state.item.name,
                         "description":this.state.item.description,
@@ -133,6 +133,15 @@ class DetailPage extends Component{
             onChange={e => this.setState({item: { ...this.state.item, 'description': e.target.value }})}
             placeholder="description"
             value={this.state.item.description}
+          />
+        </div>
+        <div className="form-group">
+          <label for="itemcat">カテゴリー</label>
+          <input
+            type='text' className="form-control" id="itemcat" 
+            onChange={e => this.setState({item: { ...this.state.item, 'category': e.target.value }})}
+            placeholder="category"
+            value={this.state.item.category}
           />
         </div>
         <div className="form-group">
