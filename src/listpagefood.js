@@ -102,7 +102,7 @@ class ListPageBook extends Component {
     return (
       <div className="mt-5 container-fluid bg-color-1">
         <header className="fixed-top">
-          <div className="bg-color-1"><h1>Ikkohのおすすめ{this.state.username}</h1></div>
+          <div className="bg-color-1"><h1>I's Choice{this.state.username}</h1></div>
         </header>
         <div className="k2Header k2310BgH">
           <div onClick={this.selectBook} className="col-6 k2310BgH">Book</div>
