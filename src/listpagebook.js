@@ -19,13 +19,15 @@ class ListPageBook extends Component {
   constructor(props){
     super(props);
     this.fetchItemsFromAPI = this.fetchItemsFromAPI.bind(this);
-    this.createItem = this.createItem.bind(this);
-    this.editItem = this.editItem.bind(this);
-    this.login = this.login.bind(this);
-    this.selectBook = this.selectBook.bind(this);
-    this.selectFood = this.selectFood.bind(this);
+    this.createItem        = this.createItem.bind(this);
+    this.editItem          = this.editItem.bind(this);
+    this.login             = this.login.bind(this);
+    this.selectIllust      = this.selectIllust.bind(this);
+    this.selectBook        = this.selectBook.bind(this);
+    this.selectFood        = this.selectFood.bind(this);
     this.state = {
-      isLoggedIn: false,
+      // isLoggedIn: false,
+      devmode: true,
       username: "",
       items: initialItemState,
       category: "book"
@@ -90,10 +92,11 @@ class ListPageBook extends Component {
 
   //隠しボタンで起動するlogin
   login() {
-    this.setState({isLoggedIn: !this.state.isLoggedIn});
+    // this.setState({isLoggedIn: !this.state.isLoggedIn});
+    this.setState({devmode: !this.state.devmode});
   }
 
-
+  selectIllust() {  this.props.history.push({ pathname: '/listpageillust' });  }
   selectBook() {  this.props.history.push({ pathname: '/listpagebook' });  }
   selectFood() {  this.props.history.push({ pathname: '/listpagefood' });  }
 
@@ -102,11 +105,14 @@ class ListPageBook extends Component {
     return (
       <div className="mt-5 container-fluid bg-color-1">
         <header className="fixed-top">
-          <div className="bg-color-1"><h1>Ikkohのおすすめ{this.state.username}</h1></div>
+          <div className="bg-color-1"><h1>Ikkoh's Chioce{this.state.username}</h1></div>
         </header>
-        <div className="k2Header k2310BgH">
-          <div onClick={this.selectBook} className="col-6 k2310FgH">Book</div>
-          <div onClick={this.selectFood} className="col-6 k2310BgH">Food</div>
+        <div className="AppHeader AppBgH">
+          {this.state.devmode &&
+          <div onClick={this.selectIllust} className="col-1 AppBgH">I</div>
+          }
+          <div onClick={this.selectBook} className="col-6 AppFgH">Book</div>
+          <div onClick={this.selectFood} className="col-6 AppBgH">Food</div>
         </div>
 
         {
@@ -115,7 +121,7 @@ class ListPageBook extends Component {
               <div className="card-body bg-color-2">
                 <div className="row">
                   <div className="col-2">
-                    <img src={item.imageurl} className="kzImage" alt=""/> 
+                    <img src={item.imageurl} className="AppImage" alt=""/> 
                   </div>
                   <div className="col-6">
                     <div><h4>{item.name}</h4></div>
@@ -126,7 +132,8 @@ class ListPageBook extends Component {
                         <FontAwesomeIcon icon={faAmazon} />
                     </a>
                   </div>
-                  {this.state.isLoggedIn &&
+                  {/* {this.state.isLoggedIn && */}
+                  {this.state.devmode &&
                     <div className="col-2">
                       <button type="button" onClick={() => this.editItem(item)} className="btn btn-primary">
                         <FontAwesomeIcon icon={faEdit} />
@@ -146,7 +153,8 @@ class ListPageBook extends Component {
         <div className="row">
           <div className="col-10"/>
           <div className="col-2">
-            {this.state.isLoggedIn &&
+            {/* {this.state.isLoggedIn && */}
+            {this.state.devmode &&
               <button type="button" onClick={this.createItem} className="btn btn-primary">
                 <FontAwesomeIcon icon={faPlusCircle} />
               </button>

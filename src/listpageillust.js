@@ -6,15 +6,28 @@ import { Storage } from 'aws-amplify';
 //import { API } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 //import { Auth } from 'aws-amplify';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit,faTrash,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { faAmazon } from "@fortawesome/free-brands-svg-icons";
+//import { faAmazon } from "@fortawesome/free-brands-svg-icons";
+import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+
+import {
+  CognitoUserPool,
+  //CognitoUser,
+  //AuthenticationDetails
+} from "amazon-cognito-identity-js"
+import awsConfiguration from './awsConfiguration'
+const userPool = new CognitoUserPool({
+  UserPoolId: awsConfiguration.UserPoolId,
+  ClientId:   awsConfiguration.ClientId,
+})
 
 const initialItemState = [{ name: 'initial', description: 'item state' }]
 
-class ListPageBook extends Component {
+class ListPageIllust extends Component {
 
   constructor(props){
     super(props);
@@ -22,20 +35,40 @@ class ListPageBook extends Component {
     this.createItem = this.createItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.login = this.login.bind(this);
+    this.account = this.account.bind(this);
     this.selectIllust = this.selectIllust.bind(this);
     this.selectBook = this.selectBook.bind(this);
     this.selectFood = this.selectFood.bind(this);
+    const username = this.get_user();
     this.state = {
+      // isLoggedIn: false,
       devmode: true,
-      username: "",
+      username: username, 
       items: initialItemState,
-      category: "food"
+      category: "illust"
     };
     this.fetchItemsFromAPI(this.state.category);
   }
 
+  get_user() {
+    const cognitoUser = userPool.getCurrentUser()
+    if (cognitoUser) {
+      // sign inしている状態
+      console.log('signing in');
+      console.log(cognitoUser);
+      //this.setState({devmode: 2, //!this.state.devmode,
+      //  username: cognitoUser.username
+      //});
+      return cognitoUser.username;
+    } else {
+      // sign inしていない状態
+      console.log('no signing in');
+      return 'no user';
+    }
+  }
+
   async fetchItemsFromAPI(cat) {
-      this.state = {items:initialItemState}
+    this.setState({items: initialItemState});  // item 初期化
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({"function":"list","category":cat});
@@ -44,7 +77,6 @@ class ListPageBook extends Component {
     .then(response => response.text())
     .then(async(response) => {
       const apiData = JSON.parse(response);
-      //await Promise.all(apiData.map(async item => {
       apiData.map(async item => {
         if (item.imagefile) {
           // imageFile名からimageUrlを取得する
@@ -89,10 +121,27 @@ class ListPageBook extends Component {
     });
   }
 
+  // pay(item) {
+  //   this.props.history.push({
+  //     pathname: '/pay',
+  //     state: { item: item }
+  //   });
+  // }
+
+  account() {
+    this.props.history.push({
+      pathname: '/account',
+    });
+  }
+
   //隠しボタンで起動するlogin
   login() {
-    this.setState({devmode: !this.state.devmode});
+    // this.setState({isLoggedIn: !this.state.isLoggedIn});
+    this.setState({devmode: !this.state.devmode,
+                  username: this.state.username    //"login"
+                  });
   }
+
 
   selectIllust() {  this.props.history.push({ pathname: '/listpageillust' });  }
   selectBook() {  this.props.history.push({ pathname: '/listpagebook' });  }
@@ -103,48 +152,43 @@ class ListPageBook extends Component {
     return (
       <div className="mt-5 container-fluid bg-color-1">
         <header className="fixed-top">
-          <div className="bg-color-1"><h1>Ikkoh's Choice{this.state.username}</h1></div>
+          <div className="row bg-color-1">
+            <div className="col-8">Ikkohのイラスト({this.state.devmode})</div>
+            <div className="col-4" onClick={this.account}>アカウント:{this.state.username}</div>
+          </div>
         </header>
+
         <div className="AppHeader AppBgH">
-          {this.state.devmode &&
-          <div onClick={this.selectIllust} className="col-1 AppBgH">I</div>
-          }
-          <div onClick={this.selectBook} className="col-6 AppBgH">Book</div>
-          <div onClick={this.selectFood} className="col-6 AppFgH">Food</div>
+          <div onClick={this.selectIllust} className="col-6 AppFgH">Illust</div>
+          <div onClick={this.selectBook} className="col-6 AppBgH">Ikkoh's Choice</div>
         </div>
 
+        <div className="card-columns multicol">
         {
           this.state.items.map(item => (
-            <div className="card" key={item.id || item.name}>
+            <div className="card AppCard" key={item.id || item.name}>
               <div className="card-body bg-color-2">
-                <div className="row">
-                  <div className="col-2">
                     <img src={item.imageurl} className="AppImage" alt=""/> 
-                  </div>
-                  <div className="col-6">
                     <div><h4>{item.name}</h4></div>
                     <div>{item.description}</div>
-                  </div>
-                  <div className="col-2">
-                    <a className="btn btn-primary" href={item.amazonurl} role="button">
-                        <FontAwesomeIcon icon={faAmazon} />
+                    <a className="btn btn-primary mx-1" href={item.imageurl} download role="button">
+                      <FontAwesomeIcon icon={faCartArrowDown} />
                     </a>
-                  </div>
                   {this.state.devmode &&
-                    <div className="col-2">
-                      <button type="button" onClick={() => this.editItem(item)} className="btn btn-primary">
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      <button type="button" onClick={() =>  this.deleteItemFromAPI(item)} className="btn btn-primary">
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    </div>
+                    <button type="button" onClick={() => this.editItem(item)} className="btn btn-primary mx-1">
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
                   } 
-                </div>              
+                  {this.state.devmode &&
+                    <button type="button" onClick={() => this.deleteItemFromAPI(item)} className="btn btn-primary mx-1">
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  } 
               </div>              
-            </div>              
+              </div>              
           ))
         }
+            </div>              
 
         <div style={{marginTop: 100}}  className="container-fluid">
         <div className="row">
@@ -165,5 +209,5 @@ class ListPageBook extends Component {
   }
 }
 
-export default withRouter(ListPageBook)  
+export default withRouter(ListPageIllust)  
       
