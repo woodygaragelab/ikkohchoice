@@ -2,13 +2,10 @@ import React from 'react';
 import { Component } from 'react';
 import './App.css';
 import './listpage.css';
-import { Storage } from 'aws-amplify';
+//import { Storage } from 'aws-amplify';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withRouter } from 'react-router-dom';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faEdit,faTrash,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-// import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 import {
   CognitoUserPool,
@@ -25,23 +22,32 @@ class Cancel extends Component {
 
   constructor(props){
     super(props);
-    // this.fetchItemsFromAPI = this.fetchItemsFromAPI.bind(this);
-    // this.createItem = this.createItem.bind(this);
-    // this.editItem = this.editItem.bind(this);
-    // this.login = this.login.bind(this);
-    this.account = this.account.bind(this);
-    // this.selectIllust = this.selectIllust.bind(this);
-    // this.selectBook = this.selectBook.bind(this);
-    // this.selectFood = this.selectFood.bind(this);
+    this.return = this.return.bind(this);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+
+    const customerId = this.getStripeCustomerBySessionId(sessionId);
+
+
     const username = this.get_user();
     this.state = {
       // isLoggedIn: false,
       devmode: true,
       username: username, 
       items: initialItemState,
-      category: "illust"
+      category: "illust",
+      sesisonId: sessionId,
+      customerId: customerId
+
     };
-    // this.fetchItemsFromAPI(this.state.category);
+  }
+
+  componentDidMount() {
+    const script = document.createElement("script");
+    script.src = "https://js.stripe.com/v3";
+    script.async = true;
+    document.body.appendChild(script);
   }
 
   get_user() {
@@ -61,85 +67,27 @@ class Cancel extends Component {
     }
   }
 
-  // async fetchItemsFromAPI(cat) {
-  //   this.setState({items: initialItemState});  // item 初期化
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-  //   var raw = JSON.stringify({"function":"list","category":cat});
-  //   var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
-  //   fetch("https://yxckp7iyk4.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
-  //   .then(response => response.text())
-  //   .then(async(response) => {
-  //     const apiData = JSON.parse(response);
-  //     apiData.map(async item => {
-  //       if (item.imagefile) {
-  //         // imageFile名からimageUrlを取得する
-  //         let dataExpireSeconds = (3 * 60);
-  //         const imageurl = await Storage.get(item.imagefile, { expires: dataExpireSeconds });
-  //         //const bucket   = "https://ikkohchoice232927-staging.s3-ap-northeast-1.amazonaws.com/public/";
-  //         //const imageurl = bucket + item.imagefile;
-  //         item.imageurl = imageurl;
-  //         this.setState({items: apiData});   //imageurlを取得ごとに非同期でセットする。apiDataのmap中の処理でもOK？
-  //         return item;    
-  //       }
-  //       return item;    
-  //     })
-  //   })
-  //   .catch(error => console.log('error', error));
-  //   //alert(response);
+  /**
+  * Session IDからStripe Customerのデータを引き出す
+  **/
+  // 未完成
+  //export const getStripeCustomerBySessionId = async (sessionId: string) => {
+  // async getStripeCustomerBySessionId(sessionId) {
+  //   const session = await stripe.checkout.sessions.retrieve(sessionId);
+  //   if (!session || !session.customer) throw new Error('No such customer');
+  //   const customerId =
+  //     typeof session.customer === 'string'
+  //       ? session.customer
+  //       : session.customer.id;
+  //   const customer = await this.stripe.customers.retrieve(customerId);
+  //   return customer
   // }
 
-  // async createItem() {
-  //   this.props.history.push({
-  //     pathname: '/detailpage',
-  //     state: {  item: {ID:""}  }
-  //   });
-  // }
-
-  // async deleteItemFromAPI({ ID }) {
-  //   const newItemsArray = this.state.items.filter(item => item.ID !== ID);
-  //   this.setState({items: newItemsArray});
-    
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-  //   var raw = JSON.stringify({"function":"delete", "ID":ID });
-  //   var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
-  //   fetch("https://yxckp7iyk4.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
-  //   .catch(error => console.log('error', error));
-  // }
-
-  // editItem(item) {
-  //   this.props.history.push({
-  //     pathname: '/detailpage',
-  //     state: { item: item }
-  //   });
-  // }
-
-  // pay(item) {
-  //   this.props.history.push({
-  //     pathname: '/pay',
-  //     state: { item: item }
-  //   });
-  // }
-
-  account() {
+  return() {
     this.props.history.push({
       pathname: '/account',
     });
   }
-
-  //隠しボタンで起動するlogin
-  //login() {
-    // this.setState({isLoggedIn: !this.state.isLoggedIn});
-  //  this.setState({devmode: !this.state.devmode,
-  //                username: this.state.username    //"login"
-  //                });
- // }
-
-
-  //selectIllust() {  this.props.history.push({ pathname: '/listpageillust' });  }
-  //selectBook() {  this.props.history.push({ pathname: '/listpagebook' });  }
-  //selectFood() {  this.props.history.push({ pathname: '/listpagefood' });  }
 
   render() {
 
@@ -154,6 +102,8 @@ class Cancel extends Component {
 
         <div className="bg-color-2">
           <h4>支払いはキャンセルされました。</h4>
+          <h4>sessionid:{this.state.sessoinId}</h4>
+          <h4>customerid:{this.state.customerId}</h4>
         </div>              
 
         <div style={{marginTop: 100}}  className="container-fluid">
