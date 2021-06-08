@@ -81,7 +81,7 @@ class Account extends Component {
     return (
       <div className="mt-5 container-fluid">
         <header className="fixed-top AppBgH">
-          <div className="bg-color-1"><h1>Ikkoh's Chioce User Profile</h1></div>
+          <div className="AppBody"><h1>Ikkoh's Chioce アカウント情報</h1></div>
         </header>
 
         <form className="AppBgBdy">

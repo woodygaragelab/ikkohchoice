@@ -27,7 +27,7 @@ class Cancel extends Component {
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('session_id');
 
-    const customerId = this.getStripeCustomerBySessionId(sessionId);
+    //const customerId = this.getStripeCustomerBySessionId(sessionId);
 
 
     const username = this.get_user();
@@ -38,7 +38,7 @@ class Cancel extends Component {
       items: initialItemState,
       category: "illust",
       sesisonId: sessionId,
-      customerId: customerId
+      //customerId: customerId
 
     };
   }
@@ -56,9 +56,6 @@ class Cancel extends Component {
       // sign inしている状態
       console.log('signing in');
       console.log(cognitoUser);
-      //this.setState({devmode: 2, //!this.state.devmode,
-      //  username: cognitoUser.username
-      //});
       return cognitoUser.username;
     } else {
       // sign inしていない状態
@@ -94,13 +91,13 @@ class Cancel extends Component {
     return (
       <div className="mt-5 container-fluid">
         <header className="fixed-top">
-          <div className="row bg-color-1">
+          <div className="row AppBody">
             <div className="col-8">Ikkohのイラスト({this.state.devmode})</div>
             <div className="col-4" onClick={this.account}>アカウント:{this.state.username}</div>
           </div>
         </header>
 
-        <div className="bg-color-2">
+        <div className="col-8 AppCard">
           <h4>支払いはキャンセルされました。</h4>
           <h4>sessionid:{this.state.sessoinId}</h4>
           <h4>customerid:{this.state.customerId}</h4>

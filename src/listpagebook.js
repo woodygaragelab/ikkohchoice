@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import './App.css';
 import './listpage.css';
+import Footer from './footer'        // コンポネント（部品）化したFooter
 import { Storage } from 'aws-amplify';
 //import { API } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
@@ -11,6 +12,13 @@ import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit,faTrash,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { faAmazon } from "@fortawesome/free-brands-svg-icons";
+
+import { CognitoUserPool } from "amazon-cognito-identity-js"
+import awsConfiguration    from './awsConfiguration'
+const userPool = new CognitoUserPool({
+  UserPoolId: awsConfiguration.UserPoolId,
+  ClientId:   awsConfiguration.ClientId,
+})
 
 const initialItemState = [{ name: 'initial', description: 'item state' }]
 
@@ -25,18 +33,30 @@ class ListPageBook extends Component {
     this.selectIllust      = this.selectIllust.bind(this);
     this.selectBook        = this.selectBook.bind(this);
     this.selectFood        = this.selectFood.bind(this);
+
+    const username = this.get_user();
+
     this.state = {
-      // isLoggedIn: false,
-      devmode: true,
-      username: "",
-      items: initialItemState,
+      devmode:  true,
+      username: username, 
+      items:    initialItemState,
       category: "book"
     };
     this.fetchItemsFromAPI(this.state.category);
   }
 
+  get_user() {
+    const cognitoUser = userPool.getCurrentUser()
+    if (cognitoUser) {
+      console.log(cognitoUser);
+      return cognitoUser.username;
+    } else {
+      return 'no user';
+    }
+  }
+
   async fetchItemsFromAPI(cat) {
-      this.state = {items:initialItemState}
+    this.setState({items:initialItemState}); 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({"function":"list","category":cat});
@@ -45,14 +65,11 @@ class ListPageBook extends Component {
     .then(response => response.text())
     .then(async(response) => {
       const apiData = JSON.parse(response);
-      //await Promise.all(apiData.map(async item => {
       apiData.map(async item => {
         if (item.imagefile) {
           // imageFile名からimageUrlを取得する
           let dataExpireSeconds = (3 * 60);
           const imageurl = await Storage.get(item.imagefile, { expires: dataExpireSeconds });
-          //const bucket   = "https://ikkohchoice232927-staging.s3-ap-northeast-1.amazonaws.com/public/";
-          //const imageurl = bucket + item.imagefile;
           item.imageurl = imageurl;
           this.setState({items: apiData});   //imageurlを取得ごとに非同期でセットする。apiDataのmap中の処理でもOK？
           return item;    
@@ -90,35 +107,39 @@ class ListPageBook extends Component {
     });
   }
 
-  //隠しボタンで起動するlogin
+  //隠しボタンで起動するdevmode
   login() {
-    // this.setState({isLoggedIn: !this.state.isLoggedIn});
     this.setState({devmode: !this.state.devmode});
   }
 
   selectIllust() {  this.props.history.push({ pathname: '/listpageillust' });  }
-  selectBook() {  this.props.history.push({ pathname: '/listpagebook' });  }
-  selectFood() {  this.props.history.push({ pathname: '/listpagefood' });  }
+  selectBook()   {  this.props.history.push({ pathname: '/listpagebook' });  }
+  selectFood()   {  this.props.history.push({ pathname: '/listpagefood' });  }
 
   render() {
 
     return (
-      <div className="mt-5 container-fluid bg-color-1">
+      <div className="mt-5 container-fluid AppBody">
         <header className="fixed-top">
-          <div className="bg-color-1"><h1>Ikkoh's Choice{this.state.username}</h1></div>
-        </header>
-        <div className="AppHeader AppBgH">
-          {this.state.devmode &&
-          <div onClick={this.selectIllust} className="col-1 AppBgH">I</div>
-          }
-          <div onClick={this.selectBook} className="col-6 AppFgH">Book</div>
-          <div onClick={this.selectFood} className="col-6 AppBgH">Food</div>
-        </div>
+          <div className="row AppBody">
+            <div className="col-6"><h4>Ikkoh's Choice</h4></div>
+            <div className="col-6 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div>
+          </div>
 
+          <div className="AppTabGroup AppBody">
+            {this.state.devmode &&
+            <div onClick={this.selectIllust} className="col-1 AppTabUnselected">I</div>
+            }
+            <div onClick={this.selectBook} className="col-6 AppTabSelected">Book</div>
+            <div onClick={this.selectFood} className="col-6 AppTabUnselected">Food</div>
+          </div>
+        </header>
+
+        <div className="mt-5 container-fluid AppBody">
         {
           this.state.items.map(item => (
             <div className="card" key={item.id || item.name}>
-              <div className="card-body bg-color-2">
+              <div className="card-body AppList">
                 <div className="row">
                   <div className="col-2">
                     <img src={item.imageurl} className="AppImage" alt=""/> 
@@ -132,7 +153,6 @@ class ListPageBook extends Component {
                         <FontAwesomeIcon icon={faAmazon} />
                     </a>
                   </div>
-                  {/* {this.state.isLoggedIn && */}
                   {this.state.devmode &&
                     <div className="col-2">
                       <button type="button" onClick={() => this.editItem(item)} className="btn btn-primary">
@@ -148,22 +168,21 @@ class ListPageBook extends Component {
             </div>              
           ))
         }
+        </div>
 
         <div style={{marginTop: 100}}  className="container-fluid">
         <div className="row">
           <div className="col-10"/>
           <div className="col-2">
-            {/* {this.state.isLoggedIn && */}
             {this.state.devmode &&
               <button type="button" onClick={this.createItem} className="btn btn-primary">
                 <FontAwesomeIcon icon={faPlusCircle} />
               </button>
             }
-            <button type="button" onClick={this.login} className="btn btn-secondary"/>
           </div>
         </div>              
         </div> 
-
+      <Footer handleLogin={this.login}></Footer>
       </div>
     );
   }

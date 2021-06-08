@@ -112,7 +112,7 @@ class ListPageBook extends Component {
         {
           this.state.items.map(item => (
             <div className="card" key={item.id || item.name}>
-              <div className="card-body bg-color-2">
+              <div className="card-body AppCard">
                 <div className="row">
                   <div className="col-2">
                     <img src={item.imageurl} style={{width: 100,height:100}} alt=""/>

@@ -65,8 +65,7 @@
           * https://stripe.com/docs/payments/checkout/fulfill-orders
           */
           successUrl: window.location.protocol + '//ikkoh.net/success',
-          cancelUrl: window.location.protocol + '//ikkoh.net/cancel',
-          /*cancelUrl: window.location.protocol + '//localhost:3000/cancel',*/
+          cancelUrl: window.location.protocol + '//master.d3p5k9u0efncqp.amplifyapp.com/cancel?session_id={CHECKOUT_SESSION_ID}',
 
         })
         .then(function (result) {

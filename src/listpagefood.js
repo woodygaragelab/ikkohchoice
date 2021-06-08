@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import './App.css';
 import './listpage.css';
+import Footer from './footer'        // コンポネント（部品）化したFooter
 import { Storage } from 'aws-amplify';
 //import { API } from 'aws-amplify';
 //import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
@@ -35,7 +36,7 @@ class ListPageBook extends Component {
   }
 
   async fetchItemsFromAPI(cat) {
-      this.state = {items:initialItemState}
+    this.setState({items:initialItemState}); 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({"function":"list","category":cat});
@@ -89,7 +90,7 @@ class ListPageBook extends Component {
     });
   }
 
-  //隠しボタンで起動するlogin
+  //隠しボタンで起動するdevmode
   login() {
     this.setState({devmode: !this.state.devmode});
   }
@@ -101,22 +102,27 @@ class ListPageBook extends Component {
   render() {
 
     return (
-      <div className="mt-5 container-fluid bg-color-1">
+      <div className="mt-5 container-fluid AppBody">
         <header className="fixed-top">
-          <div className="bg-color-1"><h1>Ikkoh's Choice{this.state.username}</h1></div>
+
+          <div className="row AppBody">
+            <div className="col-6"><h4>Ikkoh's Choice</h4></div>
+            <div className="col-6 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div>
+          </div>
+
+          <div className="AppTabGroup AppBgH">
+            {this.state.devmode &&
+            <div onClick={this.selectIllust} className="col-1 AppTabUnselected">I</div>
+            }
+            <div onClick={this.selectBook} className="col-6 AppTabUnselected">Book</div>
+            <div onClick={this.selectFood} className="col-6 AppTabSelected">Food</div>
+          </div>
         </header>
-        <div className="AppHeader AppBgH">
-          {this.state.devmode &&
-          <div onClick={this.selectIllust} className="col-1 AppBgH">I</div>
-          }
-          <div onClick={this.selectBook} className="col-6 AppBgH">Book</div>
-          <div onClick={this.selectFood} className="col-6 AppFgH">Food</div>
-        </div>
 
         {
           this.state.items.map(item => (
             <div className="card" key={item.id || item.name}>
-              <div className="card-body bg-color-2">
+              <div className="card-body AppList">
                 <div className="row">
                   <div className="col-2">
                     <img src={item.imageurl} className="AppImage" alt=""/> 
@@ -135,7 +141,7 @@ class ListPageBook extends Component {
                       <button type="button" onClick={() => this.editItem(item)} className="btn btn-primary">
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
-                      <button type="button" onClick={() =>  this.deleteItemFromAPI(item)} className="btn btn-primary">
+                      <button type="button" onClick={() => this.deleteItemFromAPI(item)} className="btn btn-primary">
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
                     </div>
@@ -155,11 +161,11 @@ class ListPageBook extends Component {
                 <FontAwesomeIcon icon={faPlusCircle} />
               </button>
             }
-            <button type="button" onClick={this.login} className="btn btn-secondary"/>
           </div>
         </div>              
         </div> 
 
+      <Footer handleLogin={this.login}></Footer>
       </div>
     );
   }
