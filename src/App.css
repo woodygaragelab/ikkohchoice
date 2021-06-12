@@ -1,37 +1,34 @@
+/* * { margin: 0; padding: 0; } */
 
-.multicol {
-  column-count: auto;
-}
-
-/* header backgtound / foreground */
-.AppButton2 {
-  background-color: #bbbbbb;
-  color:            #fff;
-  border-color:     #8392c9;
-}
-
-.AppFgH { background: #ffffff; color:black}
-.AppBgH { background: #6b7ec5; color:white }
 .AppTabGroup {
-  background: #7080c0;
+  background: #c0c0c0;
   color:white;
   display: flex;
-  width: 100%;
+  /* width: 100%; */
   font-family: Kanit, sans-serif;
   font-size: 1.2em;
   align-items: center;
   justify-content: space-evenly;
 }
-.AppTabSelected   { background: #f5f5f5; color:rgb(0, 0, 0) }
-.AppTabUnselected { background: #5164aa; color:white }
-.AppBody          { background: #7080c0; color:rgb(0, 0, 0) }
-.AppFooter        { background: #7080c0; color:rgb(121, 121, 121) }
-.AppList          { background: #f5f5f5; color:rgb(0, 0, 0) }
-.AppCard          { background: #ffffff; color:rgb(0, 0, 0); width: 10rem; }
+.AppBackground    { background: #7080c0; color:#ffffff; padding: 0px; }
+.AppHeader        { background: #60608a; color:#ffffff }
+.AppTabSelected   { background: #6070c0; color:#ffffff }
+.AppTabUnselected { background: #c0c0c0; color:#a0a0a0 }
+.AppBody          { background: #7080c0; color:#000000 }
+.AppFooter        { background: #7080c0; color:#a0a0a0 }
+.AppFiller        { background: #7080c0; color:#7080c0; height: 3rem;}
+.AppList          { background: #7080c0; color:#000000;}
+.AppCard          { background: #ffffff; color:#000000; width: 10rem; }
+.AppCard2         { background: #ffffff; color:#000000; }
 .AppRight         { text-align: right; }
 
 .AppImage {
-  width: 100px;            /* 親要素(div)(表示領域)の50%幅 */
+  width: 100px;          /* 親要素(div)(表示領域)の50%幅 */
   height: auto;          /* 縦横比(アスペクト比)は元イメージに合わせる */
-  border: thin solid #818181;
+  /* border: thin solid #818181; */
+}
+.AppButton2 {
+  background-color: #7080c0;
+  color:            #fff;
+  border-color:     #8392c9;
 }

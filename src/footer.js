@@ -19,7 +19,7 @@ class Footer extends Component {       // Footer: コンポネント
         <div className="col-10"/>
         <div className="col-2 AppFooter">
           <button type="button" onClick={() => this.props.handleLogin()} className="btn AppButton2"/>
-          <h6>20210606</h6>
+          <h6>20210612</h6>
         </div>
       </div>              
       </div> 
