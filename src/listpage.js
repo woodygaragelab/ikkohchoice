@@ -28,6 +28,8 @@ class ListPage extends Component {
     this.createItem        = this.createItem.bind(this);
     this.editItem          = this.editItem.bind(this);
     this.login             = this.login.bind(this);
+    this.signin            = this.signin.bind(this);
+    this.signout           = this.signout.bind(this);
 
     const username  = this.get_user();
     const category  = this.props.category;
@@ -108,6 +110,27 @@ class ListPage extends Component {
     this.setState({devmode: !this.state.devmode});
   }
 
+  signin() {
+    this.props.history.push({ pathname: '/signin' });  
+  }
+
+  signout(){
+    const cognitoUser = userPool.getCurrentUser()
+    if (cognitoUser) {
+      cognitoUser.signOut()
+      localStorage.clear()
+      console.log('signed out')
+      this.props.history.push({ pathname: '/listpageillust' });  
+    } else {
+      localStorage.clear()
+      console.log('no user signing in')
+    }
+  }
+
+
+
+
+
   render() {
 
     return (
@@ -117,7 +140,9 @@ class ListPage extends Component {
 
           <div className="row AppHeader">
             <div className="col-6"><h4>Ikkoh's Choice</h4></div>
-            <div className="col-6 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div>
+            <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div>
+            <div className="col-1 AppRight" onClick={this.signin}>SignIn</div>
+            <div className="col-1 AppRight" onClick={this.signout}>SignOut</div>
           </div>
 
           <Header category={this.state.category} devmode={this.state.devmode}></Header>

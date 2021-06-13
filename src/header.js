@@ -17,7 +17,7 @@ class Header extends Component {
   selectBook()   {  this.props.history.push({ pathname: '/listpagebook' });  }
   selectFood()   {  this.props.history.push({ pathname: '/listpagefood' });  }
   selectLife()   {  this.props.history.push({ pathname: '/listpagelife' });  }
-
+  
   render() {
    if (this.props.category==="book") {
       return (

@@ -22,13 +22,13 @@ class ListPageIllust extends Component {
   constructor(props){
     super(props);
     this.fetchItemsFromAPI = this.fetchItemsFromAPI.bind(this);
-    this.createItem = this.createItem.bind(this);
-    this.editItem   = this.editItem.bind(this);
-    this.login      = this.login.bind(this);
-    this.account    = this.account.bind(this);
-    this.selectIllust = this.selectIllust.bind(this);
-    this.selectBook = this.selectBook.bind(this);
-    this.selectFood = this.selectFood.bind(this);
+    this.createItem        = this.createItem.bind(this);
+    this.editItem          = this.editItem.bind(this);
+    this.login             = this.login.bind(this);
+    this.account           = this.account.bind(this);
+    this.selectIllust      = this.selectIllust.bind(this);
+    this.selectBook        = this.selectBook.bind(this);
+    this.selectFood        = this.selectFood.bind(this);
 
     const username = this.get_user();
     this.state = {
