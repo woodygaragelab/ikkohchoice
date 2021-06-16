@@ -1,70 +1,61 @@
 import { React, Component } from 'react';
 import { withRouter } from 'react-router-dom';              // router (画面遷移制御)機能
 import './App.css';                    // アプリ共通StyleSheet。スタイルはすべてここで定義する
+import { CognitoUserPool } from "amazon-cognito-identity-js"
+import awsConfiguration    from './awsConfiguration'
+const userPool = new CognitoUserPool({
+  UserPoolId: awsConfiguration.UserPoolId,
+  ClientId:   awsConfiguration.ClientId,
+})
 
 class Header extends Component {       
   constructor(props){                  
     super(props);
-    this.selectIllust      = this.selectIllust.bind(this);
-    this.selectBook        = this.selectBook.bind(this);
-    this.selectFood        = this.selectFood.bind(this);
-    this.selectLife        = this.selectLife.bind(this);
-    this.state = {
-    };
+    this.signin            = this.signin.bind(this);
+    this.signout           = this.signout.bind(this);
+    this.account           = this.account.bind(this);
+
+    this.state             = this.props.state;
+    // this.state = {
+    //   devmode:  true,
+    //   username: username, 
+    // };
+  }
+ 
+  signin() {
+    this.props.history.push({ pathname: '/signin' });  
   }
 
-  selectIllust() {  this.props.history.push({ pathname: '/listpageillust' });  }
-  selectBook()   {  this.props.history.push({ pathname: '/listpagebook' });  }
-  selectFood()   {  this.props.history.push({ pathname: '/listpagefood' });  }
-  selectLife()   {  this.props.history.push({ pathname: '/listpagelife' });  }
-  
+  signout(){
+    const cognitoUser = userPool.getCurrentUser()
+    if (cognitoUser) {
+      cognitoUser.signOut()
+      localStorage.clear()
+      console.log('signed out')
+      this.props.history.push({ pathname: '/listpageillust' });  
+    } else {
+      localStorage.clear()
+      console.log('no user signing in')
+    }
+  }
+
+  account() {
+    this.props.history.push({
+      pathname: '/account',
+      //pathname: "https://ikkohchoice232927-staging.s3-ap-northeast-1.amazonaws.com/public/pay.html"
+    });
+  }
+
+
   render() {
-   if (this.props.category==="book") {
       return (
-        <div className="AppTabGroup">
-          {this.props.devmode &&
-            <div onClick={this.selectIllust} className="col-3 AppTabUnselected">イラスト</div>
-          }
-          <div onClick={this.selectBook}   className="col-3 AppTabSelected">書籍</div>
-          <div onClick={this.selectFood}   className="col-3 AppTabUnselected">食品</div>
-          <div onClick={this.selectLife}   className="col-3 AppTabUnselected">生活</div>
+        <div className="row AppHeader">
+          <div className="col-6"><h4>Ikkoh's Choice</h4></div>
+          <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.props.state.username}({this.props.state.devmode.toString()})</div>
+          <div className="col-1 AppRight" onClick={this.signin}>SignIn</div>
+          <div className="col-1 AppRight" onClick={this.signout}>SignOut</div>
         </div>
       );
-    }
-    else if (this.props.category==="food") {
-      return (
-        <div className="AppTabGroup">
-          {this.props.devmode &&
-            <div onClick={this.selectIllust} className="col-3 AppTabUnselected">イラスト</div>
-          }
-          <div onClick={this.selectBook}   className="col-3 AppTabUnselected">書籍</div>
-          <div onClick={this.selectFood}   className="col-3 AppTabSelected">食品</div>
-          <div onClick={this.selectLife}   className="col-3 AppTabUnselected">生活</div>
-        </div>
-      );
-    }
-    else if (this.props.category==="life") {
-      return (
-        <div className="AppTabGroup">
-          {this.props.devmode &&
-            <div onClick={this.selectIllust} className="col-3 AppTabUnselected">イラスト</div>
-          }
-          <div onClick={this.selectBook}   className="col-3 AppTabUnselected">書籍</div>
-          <div onClick={this.selectFood}   className="col-3 AppTabUnselected">食品</div>
-          <div onClick={this.selectLife}   className="col-3 AppTabSelected">生活</div>
-        </div>
-      );
-    }
-    else {
-      return (
-        <div className="AppTabGroup AppBody">
-          <div onClick={this.selectIllust} className="col-1 AppTabUnselected">イラスト</div>
-          <div onClick={this.selectBook}   className="col-6 AppTabUnselected">書籍</div>
-          <div onClick={this.selectFood}   className="col-6 AppTabUnselected">食品</div>
-          <div onClick={this.selectLife}   className="col-3 AppTabUnselected">生活</div>
-        </div>
-      );
-    }
     
   }
 }

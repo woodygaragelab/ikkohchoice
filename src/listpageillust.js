@@ -1,7 +1,10 @@
 import { React, Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Storage } from 'aws-amplify';
-import Footer from './footer'        // コンポネント（部品）化したFooter
+import Header from './header'  
+//import TabGroup from './tabgroup'   
+import Footer from './footer'       
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './listpage.css';
@@ -32,7 +35,7 @@ class ListPageIllust extends Component {
 
     const username = this.get_user();
     this.state = {
-      devmode:  true,
+      devmode:  false,
       username: username, 
       items:    initialItemState,
       category: "illust"
@@ -122,10 +125,12 @@ class ListPageIllust extends Component {
       <div className="container-fluid AppBackground">
 
         <div className="fixed-top">
-          <div className="row AppHeader">
+          {/* <div className="row AppHeader">
             <div className="col-6"><h4>Ikkoh</h4></div>
             <div className="col-6 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div>
-          </div>
+          </div> */}
+          <Header state={this.state} devmode={this.state.devmode}></Header>
+
           <div className="row AppTabGroup">
             <div onClick={this.selectIllust} className="col-6 AppTabSelected">イラスト</div>
             <div onClick={this.selectBook}   className="col-6 AppTabUnselected">Ikkoh's Choice</div>

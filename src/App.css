@@ -32,3 +32,15 @@
   color:            #fff;
   border-color:     #8392c9;
 }
+.AppSignin {
+  display: inline-block;
+  width: 100px;
+}
+.AppEmail {
+  display: inline-block;
+  width: 300px;
+}
+.AppPassword {
+  display: inline-block;
+  width: 100px;
+}

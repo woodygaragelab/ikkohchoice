@@ -2,8 +2,11 @@ import React from 'react';
 import { Component } from 'react';
 import './App.css';
 import './listpage.css';
-import Header from './header'   
-import Footer from './footer'        // コンポネント（部品）化したFooter
+
+import Header from './header'  
+import TabGroup from './tabgroup'   
+import Footer from './footer'       
+
 import { Storage } from 'aws-amplify';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withRouter } from 'react-router-dom';
@@ -18,7 +21,7 @@ const userPool = new CognitoUserPool({
   ClientId:   awsConfiguration.ClientId,
 })
 
-const initialItemState = [{ name: 'initial', description: 'item state' }]
+const initialItemState = [{ name: '...', description: 'loading...' }]
 
 class ListPage extends Component {
 
@@ -35,7 +38,7 @@ class ListPage extends Component {
     const category  = this.props.category;
 
     this.state = {
-      devmode:  true,
+      devmode:  false,
       username: username, 
       items:    initialItemState,
       category: category
@@ -138,14 +141,15 @@ class ListPage extends Component {
 
         <div className="fixed-top">
 
-          <div className="row AppHeader">
+          {/* <div className="row AppHeader">
             <div className="col-6"><h4>Ikkoh's Choice</h4></div>
             <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div>
             <div className="col-1 AppRight" onClick={this.signin}>SignIn</div>
             <div className="col-1 AppRight" onClick={this.signout}>SignOut</div>
-          </div>
+          </div> */}
 
-          <Header category={this.state.category} devmode={this.state.devmode}></Header>
+          <Header   state={this.state} ></Header>
+          <TabGroup category={this.state.category} devmode={this.state.devmode}></TabGroup>
           
         </div>
 

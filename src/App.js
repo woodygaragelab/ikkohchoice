@@ -12,10 +12,8 @@ import ListPage       from './listpage';
 import DetailPage     from './detailpage';
 import SignInPage     from './signinpage';
 import Cancel         from './cancel';
-//import Pay from './pay';
-
 import Account        from './account';
-//import SignIn         from './signin';
+
 import { BrowserRouter as Router } from 'react-router-dom';
 import {Route, Switch} from 'react-router-dom';
 
@@ -34,13 +32,14 @@ class App extends React.Component {
             <Route exact={true} path='/listpagefood' component={ListPageFood}/>
             <Route exact={true} path='/listpagelife' component={ListPageLife}/>
             <Route exact={true} path='/detailpage' component={DetailPage}/>
-            {/* <Route exact={true} path='/pay' component={Pay}/> */}
+            <Route path='/pay' component={() => { 
+              window.location.href = 'https://ikkohchoice232927-staging.s3-ap-northeast-1.amazonaws.com/public/pay.html'; 
+              return null;
+            }}/>
             <Route exact={true} path='/account' component={Account}/>
             <Route exact={true} path='/success' component={ListPageIllust}/>
             <Route exact={true} path='/cancel' component={Cancel}/>
-            {/* <Route exact={true} path='/signin' component={SignIn}/> */}
             <Route exact={true} path='/signin'       component={SignInPage}/>
-            {/* <Route exact={true} path='/signinpage'   component={SignInPage}/> */}
         </Switch>
         </Router>
         </div>      

@@ -29,7 +29,7 @@ class SignInPage extends Component {
     super(props);
     this.handleChange1     = this.handleChange1.bind(this);
     this.handleChange2     = this.handleChange2.bind(this);
-    this.login             = this.login.bind(this);
+    // this.login             = this.login.bind(this);
     this.signin            = this.signin.bind(this);
     //this.signout           = this.signout.bind(this);
 
@@ -64,10 +64,10 @@ class SignInPage extends Component {
   }
 
   //隠しボタンで起動するdevmode
-  login() {
-    console.log('login')
-    //this.setState({devmode: !this.state.devmode});
-  }
+  // login() {
+  //   console.log('login')
+  //   //this.setState({devmode: !this.state.devmode});
+  // }
 
   signin() {
     console.log('signin')
@@ -84,7 +84,6 @@ class SignInPage extends Component {
     console.log('cognitoUser:')
     console.log(cognitoUser)
 
-
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         console.log('result: ' + result)
@@ -93,17 +92,13 @@ class SignInPage extends Component {
         this.setState({email:''})
         this.setState({password:''})
         this.props.history.push({ pathname: '/listpageillust' });  
-
       },
       onFailure: (err) => {
         console.error(err)
       }
-
     })
 
-    //this.props.history.push({ pathname: '/listpageillust' });  
   }
-
 
   render() {
 
@@ -114,31 +109,32 @@ class SignInPage extends Component {
 
           <div className="row AppHeader">
             <div className="col-6"><h4>Ikkoh Sign In</h4></div>
-            <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div>
-            {/* <div className="col-1 AppRight" onClick={this.signin}>SignIn</div> */}
-            {/* <div className="col-1 AppRight" onClick={this.signout}>SignOut</div> */}
+            {/* <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div> */}
           </div>
           
         </div>
 
         <div className="AppFiller">x</div>
 
-        {/* <div className="SignIn"> */}
         <div className="form-group">
-        {/* <form> */}
 
-          {/* <h1>SingIn</h1> */}
-          {/* <input type="text" placeholder='email' onChange={this.handleChange1} value={this.state.email}/> */}
+          <span className="AppSignin">Email</span>
           <input
-            type='text' className="form-control" id="email" 
+            type='text' id="email" 
             onChange={this.handleChange1}
-            placeholder="email"
+            placeholder=""
             value={this.state.email}
+            className="AppEmail"
           />
-          <input type="text" placeholder='password' onChange={this.handleChange2} value={this.state.password}/>
+          <br/>
+          <span className="AppSignin">Password</span>
+          <input type="password" placeholder=''
+            onChange={this.handleChange2}
+            value={this.state.password}
+            className="AppPassword"
+          />
+          <br/><br/>
           <button onClick={this.signin}>Sign In</button>
-          {/* <button onClick={this.login}>Sign In</button> */}
-        {/* </form> */}
         </div>
 
       </div>
