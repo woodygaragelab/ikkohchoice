@@ -12,8 +12,10 @@ class Header extends Component {
   constructor(props){                  
     super(props);
     this.signin            = this.signin.bind(this);
+    this.signup            = this.signup.bind(this);
     this.signout           = this.signout.bind(this);
     this.account           = this.account.bind(this);
+    this.test              = this.test.bind(this);
 
     this.state             = this.props.state;
     // this.state = {
@@ -26,13 +28,17 @@ class Header extends Component {
     this.props.history.push({ pathname: '/signin' });  
   }
 
+  signup(){
+    this.props.history.push({ pathname: '/signup' });  
+  }
+
   signout(){
     const cognitoUser = userPool.getCurrentUser()
     if (cognitoUser) {
       cognitoUser.signOut()
       localStorage.clear()
       console.log('signed out')
-      this.props.history.push({ pathname: '/listpageillust' });  
+      this.props.history.push({ pathname: '/' });  
     } else {
       localStorage.clear()
       console.log('no user signing in')
@@ -46,14 +52,31 @@ class Header extends Component {
     });
   }
 
+  test() {
+    this.props.history.push({ pathname: '/test' });
+  }
+
 
   render() {
       return (
         <div className="row AppHeader">
           <div className="col-6"><h4>Ikkoh's Choice</h4></div>
-          <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.props.state.username}({this.props.state.devmode.toString()})</div>
-          <div className="col-1 AppRight" onClick={this.signin}>SignIn</div>
-          <div className="col-1 AppRight" onClick={this.signout}>SignOut</div>
+          {this.props.state.username &&
+            <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.props.state.username}({this.props.state.devmode.toString()})</div>
+          }
+          {this.props.state.username &&
+            <button type="button" className="btn btn-primary" onClick={this.signout}>ログアウト</button>
+          }
+          {!this.props.state.username &&
+            <button type="button" className="btn btn-primary" onClick={this.signin}>ログイン</button>
+          }
+          {!this.props.state.username &&
+            <button type="button" className="btn btn-primary" onClick={this.signup}>ユーザー登録（無料）</button>
+          }
+          {!this.props.state.username &&
+            <button type="button" className="btn btn-primary" onClick={this.test}>TEST</button>
+          }
+
         </div>
       );
     

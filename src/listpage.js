@@ -52,7 +52,7 @@ class ListPage extends Component {
       console.log(cognitoUser);
       return cognitoUser.username;
     } else {
-      return 'no user';
+      return '';
     }
   }
 
