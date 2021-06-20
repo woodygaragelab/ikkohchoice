@@ -7,19 +7,39 @@ import { withRouter } from 'react-router-dom';
 import './App.css';
 import './listpage.css';
 
+import { CognitoUserPool } from "amazon-cognito-identity-js"
+import awsConfiguration    from './awsConfiguration'
+const userPool = new CognitoUserPool({
+  UserPoolId: awsConfiguration.UserPoolId,
+  ClientId:   awsConfiguration.ClientId,
+})
+
+
 class Account extends Component {
 
   constructor(props){
     super(props);
     this.onChangeUser         = this.onChangeUser.bind(this);
     this.onChangeSubscription = this.onChangeSubscription.bind(this);
-    // this.onClickPay           = this.onClickPay.bind(this);
     this.onClickPlan          = this.onClickPlan.bind(this);
+
+    const username         = this.get_user();
+
     this.state = {
       devmode:      true,
-      username:     "aaa",
+      username:     username,
       subscription: "0",
     };
+  }
+
+  get_user() {
+    const cognitoUser = userPool.getCurrentUser()
+    if (cognitoUser) {
+      console.log(cognitoUser);
+      return cognitoUser.username;
+    } else {
+      return '';
+    }
   }
 
   componentDidMount() {

@@ -2,20 +2,12 @@ import React from 'react';
 import { Component } from 'react';
 import './App.css';
 import './listpage.css';
-//import Header from './header'   
-//import Footer from './footer'        // コンポネント（部品）化したFooter
-//import { Storage } from 'aws-amplify';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withRouter } from 'react-router-dom';
-//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import { faEdit,faTrash,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-//import { faAmazon } from "@fortawesome/free-brands-svg-icons";
 
 import awsConfiguration    from './awsConfiguration'
 import {
   CognitoUserPool,
-  CognitoUser,
-  AuthenticationDetails,
   CognitoUserAttribute
 } from "amazon-cognito-identity-js"
 
@@ -30,9 +22,7 @@ class SignUpPage extends Component {
     super(props);
     this.handleChange1     = this.handleChange1.bind(this);
     this.handleChange2     = this.handleChange2.bind(this);
-    // this.login             = this.login.bind(this);
     this.signup           = this.signup.bind(this);
-    //this.signout           = this.signout.bind(this);
 
     const username  = this.get_user();
 
@@ -102,7 +92,6 @@ class SignUpPage extends Component {
 
           <div className="row AppHeader">
             <div className="col-6"><h4>Ikkoh ユーザー登録</h4></div>
-            {/* <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div> */}
           </div>
           
         </div>
@@ -127,7 +116,7 @@ class SignUpPage extends Component {
             className="AppPassword"
           />
           <br/><br/>
-          <button onClick={this.signup}>Sign Up</button>
+          <button onClick={this.signup}>登録</button>
         </div>
 
       </div>

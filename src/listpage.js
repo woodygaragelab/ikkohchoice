@@ -34,8 +34,8 @@ class ListPage extends Component {
     this.signin            = this.signin.bind(this);
     this.signout           = this.signout.bind(this);
 
-    const username  = this.get_user();
-    const category  = this.props.category;
+    const username         = this.get_user();
+    const category         = this.props.category;
 
     this.state = {
       devmode:  false,
@@ -130,29 +130,15 @@ class ListPage extends Component {
     }
   }
 
-
-
-
-
   render() {
 
     return (
       <div className="container-fluid AppBody">
 
         <div className="fixed-top">
-
-          {/* <div className="row AppHeader">
-            <div className="col-6"><h4>Ikkoh's Choice</h4></div>
-            <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div>
-            <div className="col-1 AppRight" onClick={this.signin}>SignIn</div>
-            <div className="col-1 AppRight" onClick={this.signout}>SignOut</div>
-          </div> */}
-
           <Header   state={this.state} ></Header>
           <TabGroup category={this.state.category} devmode={this.state.devmode}></TabGroup>
-          
         </div>
-
         <div className="AppFiller">x</div>
 
         <div className="mt-5 container-fluid AppBody">

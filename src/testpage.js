@@ -2,8 +2,6 @@ import React from 'react';
 import { Component } from 'react';
 import './App.css';
 import './listpage.css';
-//import Header from './header'   
-//import Footer from './footer'        // コンポネント（部品）化したFooter
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withRouter } from 'react-router-dom';
 
@@ -14,7 +12,8 @@ class TestPage extends Component {
     this.handleChange1     = this.handleChange1.bind(this);
     this.test              = this.test.bind(this);
     this.state = {
-      text:  ''
+      text:  '',
+      result: ''
     };
   }
 
@@ -24,6 +23,7 @@ class TestPage extends Component {
 
   test() {
     console.log('test')
+    this.setState({result: this.state.text})
   }
 
   render() {
@@ -32,11 +32,9 @@ class TestPage extends Component {
       <div className="container-fluid AppBody">
 
         <div className="fixed-top">
-
           <div className="row AppHeader">
             <div className="col-6"><h4>Test</h4></div>
           </div>
-          
         </div>
 
         <div className="AppFiller">x</div>
@@ -49,6 +47,16 @@ class TestPage extends Component {
             onChange={this.handleChange1}
             placeholder=""
             value={this.state.text}
+            className="text"
+          />
+          <br/>
+
+          <span className="AppSignin">Result</span>
+          <input
+            type='text' id="text" 
+            readOnly
+            placeholder=""
+            value={this.state.result}
             className="text"
           />
           <br/>

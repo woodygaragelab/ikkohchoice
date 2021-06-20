@@ -61,22 +61,23 @@ class Header extends Component {
       return (
         <div className="row AppHeader">
           <div className="col-6"><h4>Ikkoh's Choice</h4></div>
-          {this.props.state.username &&
-            <div className="col-4 AppRight" onClick={this.account}>アカウント:{this.props.state.username}({this.props.state.devmode.toString()})</div>
-          }
-          {this.props.state.username &&
-            <button type="button" className="btn btn-primary" onClick={this.signout}>ログアウト</button>
-          }
-          {!this.props.state.username &&
-            <button type="button" className="btn btn-primary" onClick={this.signin}>ログイン</button>
-          }
-          {!this.props.state.username &&
-            <button type="button" className="btn btn-primary" onClick={this.signup}>ユーザー登録（無料）</button>
-          }
-          {!this.props.state.username &&
-            <button type="button" className="btn btn-primary" onClick={this.test}>TEST</button>
-          }
-
+          <div className="col-6 row">
+            {this.props.state.username &&
+              <div onClick={this.account}>アカウント:{this.props.state.username}({this.props.state.devmode.toString()})</div>
+            }
+            {this.props.state.username &&
+              <button type="button" className="btn btn-primary m-1" onClick={this.signout}>ログアウト</button>
+            }
+            {!this.props.state.username &&
+              <button type="button" className="btn btn-primary m-1" onClick={this.signin}>ログイン</button>
+            }
+            {!this.props.state.username &&
+              <button type="button" className="btn btn-primary m-1" onClick={this.signup}>ユーザー登録（無料）</button>
+            }
+            {this.props.state.username &&
+              <button type="button" className="btn btn-primary m-1" onClick={this.test}>TEST</button>
+            }
+          </div>
         </div>
       );
     
