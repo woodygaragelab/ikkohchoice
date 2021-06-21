@@ -11,10 +11,13 @@ class TestPage extends Component {
     super(props);
     this.handleChange1     = this.handleChange1.bind(this);
     this.test              = this.test.bind(this);
+    this.analizeText       = this.analizeText.bind(this);
+
     this.state = {
       text:  '',
-      result: ''
+      result: '',
     };
+
   }
 
   handleChange1(e){
@@ -23,7 +26,21 @@ class TestPage extends Component {
 
   test() {
     console.log('test')
-    this.setState({result: this.state.text})
+    this.analizeText(this.state.text)
+  }
+
+
+  async analizeText(text) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {method: 'GET', headers: myHeaders };
+    fetch("https://kojipro.an.r.appspot.com/getscore?text="+text, requestOptions)
+    .then(response => response.text())
+    .then(async(response) => {
+      console.log(response);
+      this.setState({result: response})
+    })
+    .catch(error => console.log('error', error));
   }
 
   render() {
@@ -47,7 +64,7 @@ class TestPage extends Component {
             onChange={this.handleChange1}
             placeholder=""
             value={this.state.text}
-            className="text"
+            className="AppText"
           />
           <br/>
 
@@ -57,7 +74,7 @@ class TestPage extends Component {
             readOnly
             placeholder=""
             value={this.state.result}
-            className="text"
+            className="AppResult"
           />
           <br/>
           <br/><br/>

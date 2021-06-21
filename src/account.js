@@ -2,8 +2,6 @@ import React from 'react';
 import { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withRouter } from 'react-router-dom';
-//import Button from 'react-bootstrap/Button';
-
 import './App.css';
 import './listpage.css';
 
@@ -22,6 +20,7 @@ class Account extends Component {
     this.onChangeUser         = this.onChangeUser.bind(this);
     this.onChangeSubscription = this.onChangeSubscription.bind(this);
     this.onClickPlan          = this.onClickPlan.bind(this);
+    this.onClickReturn        = this.onClickReturn.bind(this);
 
     const username         = this.get_user();
 
@@ -42,18 +41,21 @@ class Account extends Component {
     }
   }
 
-  componentDidMount() {
-    const script = document.createElement("script");
-    script.src = "https://js.stripe.com/v3";
-    script.async = true;
-    document.body.appendChild(script);
-  }
+  // componentDidMount() {
+  //   const script = document.createElement("script");
+  //   script.src = "https://js.stripe.com/v3";
+  //   script.async = true;
+  //   document.body.appendChild(script);
+  // }
  
   onChangeUser(e)        { this.setState({username: e.target.value });      }
   onChangeSubscription(e){ this.setState({subscription: e.target.value });  }
   onClickPlan(e){
     this.setState({subscription: "1" });
     this.props.history.push({ pathname: '/pay' });  
+  }
+  onClickReturn(){
+    this.props.history.push({ pathname: '/' });  
   }
 
   render() {
@@ -83,7 +85,8 @@ class Account extends Component {
           </div>
 
           <div className="button">
-            <button type="button" className="btn btn-primary" onClick={this.onClickPlan}>有料プランへ変更</button>
+            <button type="button" className="btn btn-primary m-1" onClick={this.onClickPlan}>有料プランへ変更</button>
+            <button type="button" className="btn btn-primary m-1" onClick={this.onClickReturn}>戻る</button>
           </div>
 
       </div>
@@ -92,4 +95,3 @@ class Account extends Component {
 }
 
 export default withRouter(Account)  
-      

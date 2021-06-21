@@ -44,3 +44,11 @@
   display: inline-block;
   width: 100px;
 }
+.AppText {
+  display: inline-block;
+  width: 400px;
+}
+.AppResult {
+  display: inline-block;
+  width: 800px;
+}

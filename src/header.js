@@ -48,7 +48,6 @@ class Header extends Component {
   account() {
     this.props.history.push({
       pathname: '/account',
-      //pathname: "https://ikkohchoice232927-staging.s3-ap-northeast-1.amazonaws.com/public/pay.html"
     });
   }
 
@@ -74,7 +73,7 @@ class Header extends Component {
             {!this.props.state.username &&
               <button type="button" className="btn btn-primary m-1" onClick={this.signup}>ユーザー登録（無料）</button>
             }
-            {this.props.state.username &&
+            {this.props.state.devmode &&
               <button type="button" className="btn btn-primary m-1" onClick={this.test}>TEST</button>
             }
           </div>
