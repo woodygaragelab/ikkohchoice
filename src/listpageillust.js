@@ -9,7 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './listpage.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit,faTrash,faPlusCircle,faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faEdit,faTrash,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 import { CognitoUserPool } from "amazon-cognito-identity-js"
 import awsConfiguration    from './awsConfiguration'
@@ -27,7 +28,7 @@ class ListPageIllust extends Component {
     this.fetchItemsFromAPI = this.fetchItemsFromAPI.bind(this);
     this.createItem        = this.createItem.bind(this);
     this.editItem          = this.editItem.bind(this);
-    this.login             = this.login.bind(this);
+    this.devmode           = this.devmode.bind(this);
     this.account           = this.account.bind(this);
     this.selectIllust      = this.selectIllust.bind(this);
     this.selectBook        = this.selectBook.bind(this);
@@ -113,7 +114,7 @@ class ListPageIllust extends Component {
     });
   }
 
-  login()        {  this.setState({devmode: !this.state.devmode });            }
+  devmode()        {  this.setState({devmode: !this.state.devmode });            }
 
   selectIllust() {  this.props.history.push({ pathname: '/listpageillust' });  }
   selectBook()   {  this.props.history.push({ pathname: '/listpagebook' });    }
@@ -125,10 +126,6 @@ class ListPageIllust extends Component {
       <div className="container-fluid AppBackground">
 
         <div className="fixed-top">
-          {/* <div className="row AppHeader">
-            <div className="col-6"><h4>Ikkoh</h4></div>
-            <div className="col-6 AppRight" onClick={this.account}>アカウント:{this.state.username}({this.state.devmode.toString()})</div>
-          </div> */}
           <Header state={this.state} devmode={this.state.devmode}></Header>
 
           <div className="row AppTabGroup">
@@ -149,7 +146,7 @@ class ListPageIllust extends Component {
                     <div><h4>{item.name}</h4></div>
                     <div>{item.description}</div>
                     <a className="btn btn-primary mx-1" href={item.imageurl} download role="button">
-                      <FontAwesomeIcon icon={faCartArrowDown} />
+                      <FontAwesomeIcon icon={faDownload} />
                     </a>
                   {this.state.devmode &&
                     <button type="button" onClick={() => this.editItem(item)} className="btn btn-primary mx-1">
@@ -180,7 +177,7 @@ class ListPageIllust extends Component {
         </div>              
         </div> 
         
-        <Footer handleLogin={this.login}></Footer>
+        <Footer handleLogin={this.devmode}></Footer>
       </div>
     );
   }

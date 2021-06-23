@@ -18,10 +18,6 @@ class Header extends Component {
     this.test              = this.test.bind(this);
 
     this.state             = this.props.state;
-    // this.state = {
-    //   devmode:  true,
-    //   username: username, 
-    // };
   }
  
   signin() {

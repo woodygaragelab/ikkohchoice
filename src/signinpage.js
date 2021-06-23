@@ -77,11 +77,9 @@ class SignInPage extends Component {
       <div className="container-fluid AppBody">
 
         <div className="fixed-top">
-
           <div className="row AppHeader">
             <div className="col-6"><h4>Ikkoh ログイン</h4></div>
           </div>
-          
         </div>
 
         <div className="AppFiller">x</div>

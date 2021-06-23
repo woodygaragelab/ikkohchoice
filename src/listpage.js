@@ -30,7 +30,7 @@ class ListPage extends Component {
     this.fetchItemsFromAPI = this.fetchItemsFromAPI.bind(this);
     this.createItem        = this.createItem.bind(this);
     this.editItem          = this.editItem.bind(this);
-    this.login             = this.login.bind(this);
+    this.devmode           = this.devmode.bind(this);
     this.signin            = this.signin.bind(this);
     this.signout           = this.signout.bind(this);
 
@@ -109,7 +109,7 @@ class ListPage extends Component {
   }
 
   //隠しボタンで起動するdevmode
-  login() {
+  devmode() {
     this.setState({devmode: !this.state.devmode});
   }
 
@@ -189,7 +189,7 @@ class ListPage extends Component {
         </div>              
         </div> 
 
-      <Footer handleLogin={this.login}></Footer>
+      <Footer handleLogin={this.devmode}></Footer>
       </div>
     );
   }
