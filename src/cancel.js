@@ -2,7 +2,6 @@ import React from 'react';
 import { Component } from 'react';
 import './App.css';
 import './listpage.css';
-//import { Storage } from 'aws-amplify';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { withRouter } from 'react-router-dom';
@@ -26,18 +25,18 @@ class Cancel extends Component {
 
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('session_id');
+    console.log(urlParams);
 
     //const customerId = this.getStripeCustomerBySessionId(sessionId);
 
 
     const username = this.get_user();
     this.state = {
-      // isLoggedIn: false,
       devmode: true,
       username: username, 
       items: initialItemState,
       category: "illust",
-      sesisonId: sessionId,
+      sessionId: sessionId,
       //customerId: customerId
 
     };
@@ -98,9 +97,10 @@ class Cancel extends Component {
         </header>
 
         <div className="col-8 AppCard">
-          <h4>支払いはキャンセルされました。</h4>
-          <h4>sessionid:{this.state.sessoinId}</h4>
-          <h4>customerid:{this.state.customerId}</h4>
+          <h4>支払いはキャンセルされました。625</h4>
+          <h4>アカウント:{this.state.username}</h4>
+          {/* <h4>sessionid:{this.state.sessionId}</h4> */}
+          {/* <h4>customerid:{this.state.customerId}</h4> */}
         </div>              
 
         <div style={{marginTop: 100}}  className="container-fluid">

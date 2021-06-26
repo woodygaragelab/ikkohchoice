@@ -23,7 +23,8 @@ class Account extends Component {
     this.onClickReturn        = this.onClickReturn.bind(this);
 
     const username         = this.get_user();
-
+    
+    
     this.state = {
       devmode:      true,
       username:     username,
@@ -35,6 +36,21 @@ class Account extends Component {
     const cognitoUser = userPool.getCurrentUser()
     if (cognitoUser) {
       console.log(cognitoUser);
+      
+      cognitoUser.getUserAttributes(function(err, result) {
+        if (err) {
+            //$(location).attr("href", "signin.html");
+        }
+        console.log(result);
+        
+        // 取得した属性情報を連想配列に格納
+        // for (i = 0; i < result.length; i++) {
+        //     currentUserData[result[i].getName()] = result[i].getValue();
+        // }
+        // $("div#menu h1").text("ようこそ！" + currentUserData["family_name"] + "さん");
+    });
+
+      
       return cognitoUser.username;
     } else {
       return '';
