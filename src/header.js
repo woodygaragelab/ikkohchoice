@@ -15,7 +15,7 @@ class Header extends Component {
     this.signup            = this.signup.bind(this);
     this.signout           = this.signout.bind(this);
     this.account           = this.account.bind(this);
-    this.test              = this.test.bind(this);
+    // this.test              = this.test.bind(this);
 
     this.state             = this.props.state;
   }
@@ -47,9 +47,9 @@ class Header extends Component {
     });
   }
 
-  test() {
-    this.props.history.push({ pathname: '/test' });
-  }
+  // test() {
+  //   this.props.history.push({ pathname: '/test' });
+  // }
 
 
   render() {
@@ -69,9 +69,9 @@ class Header extends Component {
             {!this.props.state.username &&
               <button type="button" className="btn btn-primary m-1" onClick={this.signup}>ユーザー登録（無料）</button>
             }
-            {this.props.state.devmode &&
+            {/* {this.props.state.devmode &&
               <button type="button" className="btn btn-primary m-1" onClick={this.test}>TEST</button>
-            }
+            } */}
           </div>
         </div>
       );

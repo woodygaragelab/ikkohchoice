@@ -9,7 +9,6 @@ import awsConfiguration    from './awsConfiguration'
 import {
   CognitoUserPool,
   CognitoUser,
-  AuthenticationDetails
 } from "amazon-cognito-identity-js"
 
 const userPool = new CognitoUserPool({
@@ -17,20 +16,40 @@ const userPool = new CognitoUserPool({
   ClientId:   awsConfiguration.ClientId,
 })
 
-class SignInPage extends Component {
+class VerificationPage extends Component {
 
   constructor(props){
     super(props);
     this.handleChange1     = this.handleChange1.bind(this);
     this.handleChange2     = this.handleChange2.bind(this);
-    this.signin            = this.signin.bind(this);
+    this.verifyCode        = this.verifyCode.bind(this);
 
     this.state = {
-      devmode:  true,
-      email:    '',
-      password: '',
-      message:''
+      devmode:          true,
+      email:            '',
+      verificationCode: '',
+      message:          '',  
     };
+  }
+
+  verifyCode() {
+    const cognitoUser = new CognitoUser({
+      Username: this.state.email,
+      Pool: userPool
+    })
+    cognitoUser.confirmRegistration(this.state.verificationCode, true, (err) => {
+      if (err) {
+        console.log(err)
+        console.error(err)
+        console.log(err['message'])
+        this.setState({message: err['message']});  
+        return
+      }
+      console.log('verification succeeded')
+      this.setState({email: '' });
+      this.setState({verificationCode: '' });
+      this.setState({message: '' });
+    })
   }
 
   handleChange1(e){
@@ -38,41 +57,7 @@ class SignInPage extends Component {
   }
 
   handleChange2(e){
-    this.setState({password: e.target.value });
-  }
-
-  signin() {
-    console.log('signin')
-    const authenticationDetails = new AuthenticationDetails({
-      Username : this.state.email,
-      Password : this.state.password
-    })
-    const cognitoUser = new CognitoUser({
-      Username: this.state.email,
-      Pool: userPool
-    })
-    console.log('Username:')
-    console.log(this.state.email)
-    console.log('cognitoUser:')
-    console.log(cognitoUser)
-
-    cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: (result) => {
-        console.log('result: ' + result)
-        const accessToken = result.getAccessToken().getJwtToken()
-        console.log('AccessToken: ' + accessToken)
-        this.setState({email:''})
-        this.setState({password:''})
-        this.setState({message: ''})
-        this.props.history.push({ pathname: '/listpageillust' });  
-      },
-      onFailure: (err) => {
-        console.error(err)
-        console.log(err['message'])
-        this.setState({message: err['message']});
-      }
-    })
-
+    this.setState({verificationCode: e.target.value });
   }
 
   render() {
@@ -82,7 +67,7 @@ class SignInPage extends Component {
 
         <div className="fixed-top">
           <div className="row AppHeader">
-            <div className="col-6"><h4>Ikkoh ログイン</h4></div>
+            <div className="col-6"><h4>Ikkoh ユーザー登録認証</h4></div>
           </div>
         </div>
 
@@ -99,17 +84,17 @@ class SignInPage extends Component {
             className="AppEmail"
           />
           <br/>
-          <span className="AppSignin">Password</span>
-          <input type="password" placeholder=''
+          <span className="AppSignin">verificationCode</span>
+          <input type="text" placeholder=''
             onChange={this.handleChange2}
-            value={this.state.password}
-            className="AppPassword"
+            value={this.state.verificationCode}
+            className="AppEmail"
           />
           <br/><br/>
           <span>{this.state.message}</span>
           <br/><br/>
           
-          <button type="button" className="btn btn-primary m-1" onClick={this.signin}>ログイン</button>
+          <button onClick={this.verifyCode}>認証</button>
         </div>
 
       </div>
@@ -117,4 +102,4 @@ class SignInPage extends Component {
   }
 }
 
-export default withRouter(SignInPage)  
+export default withRouter(VerificationPage)  

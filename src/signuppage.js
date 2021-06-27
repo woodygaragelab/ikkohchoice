@@ -22,7 +22,8 @@ class SignUpPage extends Component {
     super(props);
     this.handleChange1     = this.handleChange1.bind(this);
     this.handleChange2     = this.handleChange2.bind(this);
-    this.signup           = this.signup.bind(this);
+    this.signup            = this.signup.bind(this);
+    this.verification      = this.verification.bind(this);
 
     const username  = this.get_user();
 
@@ -30,7 +31,8 @@ class SignUpPage extends Component {
       devmode:  true,
       username: username, 
       email:    '',
-      password: ''
+      password: '',
+      message:''
     };
   }
 
@@ -54,6 +56,10 @@ class SignUpPage extends Component {
     this.setState({password: e.target.value });
   }
 
+  verification() {
+    this.props.history.push({ pathname: '/verification' });  
+  }
+  
   signup() {
     console.log('signup')
     const attributeList = [
@@ -70,6 +76,9 @@ class SignUpPage extends Component {
       (err) => {
         if (err) {
           console.log(err);
+          console.error(err)
+          console.log(err['message'])
+          this.setState({message: err['message']});  
           this.setState({ error: true });
           return;
         }
@@ -77,7 +86,9 @@ class SignUpPage extends Component {
           email: "",
           password: "",
           success: true,
+          message: '',  
         });
+        this.props.history.push({ pathname: '/verification' });  
       }
     );
 
@@ -89,11 +100,9 @@ class SignUpPage extends Component {
       <div className="container-fluid AppBody">
 
         <div className="fixed-top">
-
           <div className="row AppHeader">
             <div className="col-6"><h4>Ikkoh ユーザー登録</h4></div>
           </div>
-          
         </div>
 
         <div className="AppFiller">x</div>
@@ -116,7 +125,11 @@ class SignUpPage extends Component {
             className="AppPassword"
           />
           <br/><br/>
+          <span>{this.state.message}</span>
+          <br/><br/>
+
           <button onClick={this.signup}>登録</button>
+          <button onClick={this.verification}>認証</button>
         </div>
 
       </div>

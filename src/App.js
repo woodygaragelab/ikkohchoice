@@ -12,6 +12,7 @@ import ListPage       from './listpage';
 import DetailPage     from './detailpage';
 import SignInPage     from './signinpage';
 import SignUpPage     from './signuppage';
+import VerificationPage from './verificationpage';
 import Cancel         from './cancel';
 import Account        from './account';
 import TestPage       from './testpage';
@@ -43,6 +44,7 @@ class App extends React.Component {
             <Route exact={true} path='/cancel'       component={Cancel}/>
             <Route exact={true} path='/signin'       component={SignInPage}/>
             <Route exact={true} path='/signup'       component={SignUpPage}/>
+            <Route exact={true} path='/verification' component={VerificationPage}/>
             <Route exact={true} path='/test'         component={TestPage}/>
         </Switch>
         </Router>
