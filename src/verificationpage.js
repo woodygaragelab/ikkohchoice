@@ -49,6 +49,7 @@ class VerificationPage extends Component {
       this.setState({email: '' });
       this.setState({verificationCode: '' });
       this.setState({message: '' });
+      this.props.history.push({ pathname: '/account' });
     })
   }
 

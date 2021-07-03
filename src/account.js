@@ -22,7 +22,7 @@ class Account extends Component {
     this.onClickPlan          = this.onClickPlan.bind(this);
     this.onClickReturn        = this.onClickReturn.bind(this);
 
-    const username         = this.get_user();
+    const username            = this.get_user();
     
     
     this.state = {

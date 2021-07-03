@@ -57,16 +57,16 @@ class Header extends Component {
         <div className="row AppHeader">
           <div className="col-6"><h4>Ikkoh's Choice</h4></div>
           <div className="col-6 row">
-            {this.props.state.username &&
+            {this.props.state.username && this.props.state.category==="illust" &&
               <div onClick={this.account}>アカウント:{this.props.state.username}({this.props.state.devmode.toString()})</div>
             }
-            {this.props.state.username &&
+            {this.props.state.username && this.props.state.category==="illust" &&
               <button type="button" className="btn btn-primary m-1" onClick={this.signout}>ログアウト</button>
             }
-            {!this.props.state.username &&
+            {!this.props.state.username && this.props.state.category==="illust" &&
               <button type="button" className="btn btn-primary m-1" onClick={this.signin}>ログイン</button>
             }
-            {!this.props.state.username &&
+            {!this.props.state.username && this.props.state.category==="illust" &&
               <button type="button" className="btn btn-primary m-1" onClick={this.signup}>ユーザー登録（無料）</button>
             }
             {/* {this.props.state.devmode &&
