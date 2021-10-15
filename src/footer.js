@@ -16,10 +16,10 @@ class Footer extends Component {       // Footer: コンポネント
     return (
       <div style={{marginTop: 100}}  className="container-fluid">
       <div className="row">
-        <div className="col-10"/>
-        <div className="col-2 AppFooter">
+        <div className="col-6"/>
+        <div className="col-6 AppFooter">
           <button type="button" onClick={() => this.props.handleLogin()} className="btn AppButton2"/>
-          <h6>20211015</h6>
+          <h6>https://main.d288kkpe5u1sjt.amplifyapp.com/ 20211015</h6>
         </div>
       </div>              
       </div> 
